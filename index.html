@@ -1,0 +1,787 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Escape Math</title>
+
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+    <!-- =====================================================
+         MENU PRINCIPAL
+    ====================================================== -->
+
+    <div id="mainMenu" class="screen">
+
+        <div class="title">
+
+            <div class="warning">
+                ⚠ SISTEMA DE EMERGÊNCIA ⚠
+            </div>
+
+            <h1>
+                ESCAPE <span>MATH</span>
+            </h1>
+
+            <p>
+                RESOLVA. SOBREVIVA. ESCAPE.
+            </p>
+
+        </div>
+
+
+        <div class="buttons">
+
+            <button id="startButton">
+                ▶ &nbsp; INICIAR JOGO
+            </button>
+
+            <button id="instructionsButton">
+                ? &nbsp; COMO JOGAR
+            </button>
+
+        </div>
+
+
+        <div class="version">
+            ESCAPE MATH // v1.0
+        </div>
+
+    </div>
+
+
+    <!-- =====================================================
+         SELEÇÃO DE PERSONAGEM
+    ====================================================== -->
+
+    <div id="characterScreen" class="screen hidden">
+
+        <div class="characterTitle">
+
+            <div class="warning">
+                ⚠ SELEÇÃO ⚠
+            </div>
+
+            <h2>
+                ESCOLHA SEU PERSONAGEM
+            </h2>
+
+            <p>
+                SELECIONE UM SOBREVIVENTE
+            </p>
+
+        </div>
+
+
+        <div class="characters">
+
+
+            <!-- =================================================
+                 LIVIASIX
+            ================================================== -->
+
+            <div
+                class="character selected"
+                data-name="LiviaSix"
+            >
+
+                <div class="characterImage">
+
+                    <div class="pixelCharacter livia">
+
+                        <div class="hairBack"></div>
+
+                        <div class="head">
+
+                            <div class="hairFront"></div>
+
+                            <div class="eye eyeLeft"></div>
+                            <div class="eye eyeRight"></div>
+
+                            <div class="nose"></div>
+                            <div class="mouth"></div>
+
+                        </div>
+
+
+                        <div class="body">
+
+                            <div class="neck"></div>
+
+                            <div class="shirt"></div>
+
+                            <div class="arm armLeft"></div>
+                            <div class="arm armRight"></div>
+
+                            <div class="hand handLeft"></div>
+                            <div class="hand handRight"></div>
+
+                            <div class="short"></div>
+
+                            <div class="leg legLeft"></div>
+                            <div class="leg legRight"></div>
+
+                            <div class="shoe shoeLeft"></div>
+                            <div class="shoe shoeRight"></div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <div class="characterName">
+                    LIVIASIX
+                </div>
+
+            </div>
+
+
+            <!-- =================================================
+                 LARASEVEN
+            ================================================== -->
+
+            <div
+                class="character"
+                data-name="LaraSeven"
+            >
+
+                <div class="characterImage">
+
+                    <div class="pixelCharacter lara">
+
+                        <div class="hairBack"></div>
+
+                        <div class="head">
+
+                            <div class="hairFront"></div>
+
+                            <div class="eye eyeLeft"></div>
+                            <div class="eye eyeRight"></div>
+
+                            <div class="nose"></div>
+                            <div class="mouth"></div>
+
+                        </div>
+
+
+                        <div class="body">
+
+                            <div class="neck"></div>
+
+                            <div class="shirt"></div>
+
+                            <div class="arm armLeft"></div>
+                            <div class="arm armRight"></div>
+
+                            <div class="hand handLeft"></div>
+                            <div class="hand handRight"></div>
+
+                            <div class="skirt"></div>
+
+                            <div class="leg legLeft"></div>
+                            <div class="leg legRight"></div>
+
+                            <div class="shoe shoeLeft"></div>
+                            <div class="shoe shoeRight"></div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <div class="characterName">
+                    LARASEVEN
+                </div>
+
+            </div>
+
+
+            <!-- =================================================
+                 TOKIO KAU
+            ================================================== -->
+
+            <div
+                class="character"
+                data-name="Tokio Kau"
+            >
+
+                <div class="characterImage">
+
+                    <div class="pixelCharacter tokio">
+
+                        <div class="hairBack"></div>
+
+                        <div class="head">
+
+                            <div class="hairFront"></div>
+
+                            <div class="eye eyeLeft"></div>
+                            <div class="eye eyeRight"></div>
+
+                            <div class="nose"></div>
+                            <div class="mouth"></div>
+
+                        </div>
+
+
+                        <div class="body">
+
+                            <div class="neck"></div>
+
+                            <div class="shirt"></div>
+
+                            <div class="arm armLeft"></div>
+                            <div class="arm armRight"></div>
+
+                            <div class="hand handLeft"></div>
+                            <div class="hand handRight"></div>
+
+                            <div class="leg legLeft"></div>
+                            <div class="leg legRight"></div>
+
+                            <div class="shoe shoeLeft"></div>
+                            <div class="shoe shoeRight"></div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <div class="characterName">
+                    TOKIO KAU
+                </div>
+
+            </div>
+
+
+            <!-- =================================================
+                 STARPRI
+            ================================================== -->
+
+            <div
+                class="character"
+                data-name="StarPri"
+            >
+
+                <div class="characterImage">
+
+                    <div class="pixelCharacter starpri">
+
+                        <div class="hairBack"></div>
+
+                        <div class="head">
+
+                            <div class="hairFront"></div>
+
+                            <div class="eye eyeLeft"></div>
+                            <div class="eye eyeRight"></div>
+
+                            <div class="nose"></div>
+                            <div class="mouth"></div>
+
+                        </div>
+
+
+                        <div class="body">
+
+                            <div class="neck"></div>
+
+                            <div class="dress"></div>
+
+                            <div class="arm armLeft"></div>
+                            <div class="arm armRight"></div>
+
+                            <div class="hand handLeft"></div>
+                            <div class="hand handRight"></div>
+
+                            <div class="leg legLeft"></div>
+                            <div class="leg legRight"></div>
+
+                            <div class="shoe shoeLeft"></div>
+                            <div class="shoe shoeRight"></div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <div class="characterName">
+                    STARPRI
+                </div>
+
+            </div>
+
+
+            <!-- =================================================
+                 RAIANY
+            ================================================== -->
+
+            <div
+                class="character"
+                data-name="Raiany"
+            >
+
+                <div class="characterImage">
+
+                    <div class="pixelCharacter raiany">
+
+                        <div class="hairBack"></div>
+
+                        <div class="head">
+
+                            <div class="hairFront"></div>
+
+                            <div class="eye eyeLeft"></div>
+                            <div class="eye eyeRight"></div>
+
+                            <div class="nose"></div>
+                            <div class="mouth"></div>
+
+                        </div>
+
+
+                        <div class="body">
+
+                            <div class="neck"></div>
+
+                            <div class="shirt"></div>
+
+                            <div class="arm armLeft"></div>
+                            <div class="arm armRight"></div>
+
+                            <div class="hand handLeft"></div>
+                            <div class="hand handRight"></div>
+
+                            <div class="leg legLeft"></div>
+                            <div class="leg legRight"></div>
+
+                            <div class="shoe shoeLeft"></div>
+                            <div class="shoe shoeRight"></div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <div class="characterName">
+                    RAIANY
+                </div>
+
+            </div>
+
+
+            <!-- =================================================
+                 ALICCE
+            ================================================== -->
+
+            <div
+                class="character"
+                data-name="Alicce"
+            >
+
+                <div class="characterImage">
+
+                    <div class="pixelCharacter alicce">
+
+                        <div class="hairBack"></div>
+
+                        <div class="head">
+
+                            <div class="hairFront"></div>
+
+                            <div class="purpleStreak"></div>
+
+                            <div class="eye eyeLeft"></div>
+                            <div class="eye eyeRight"></div>
+
+                            <div class="nose"></div>
+                            <div class="mouth"></div>
+
+                        </div>
+
+
+                        <div class="body">
+
+                            <div class="neck"></div>
+
+                            <div class="shirt"></div>
+
+                            <div class="arm armLeft"></div>
+                            <div class="arm armRight"></div>
+
+                            <div class="hand handLeft"></div>
+                            <div class="hand handRight"></div>
+
+                            <div class="short"></div>
+
+                            <div class="leg legLeft"></div>
+                            <div class="leg legRight"></div>
+
+                            <div class="shoe shoeLeft"></div>
+                            <div class="shoe shoeRight"></div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <div class="characterName">
+                    ALICCE
+                </div>
+
+            </div>
+
+
+            <!-- =================================================
+                 MINIPRI
+            ================================================== -->
+
+            <div
+                class="character"
+                data-name="MiniPri"
+            >
+
+                <div class="characterImage">
+
+                    <div class="pixelCharacter minipri">
+
+                        <div class="hairBack"></div>
+
+                        <div class="head">
+
+                            <div class="hairFront"></div>
+
+                            <div class="eye eyeLeft"></div>
+                            <div class="eye eyeRight"></div>
+
+                            <div class="nose"></div>
+                            <div class="mouth"></div>
+
+                        </div>
+
+
+                        <div class="body">
+
+                            <div class="neck"></div>
+
+                            <div class="shirt"></div>
+
+                            <div class="arm armLeft"></div>
+                            <div class="arm armRight"></div>
+
+                            <div class="hand handLeft"></div>
+                            <div class="hand handRight"></div>
+
+                            <div class="leg legLeft"></div>
+                            <div class="leg legRight"></div>
+
+                            <div class="shoe shoeLeft"></div>
+                            <div class="shoe shoeRight"></div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <div class="characterName">
+                    MINIPRI
+                </div>
+
+            </div>
+
+
+            <!-- =================================================
+                 PERSONAGEM MISTERIOSO
+            ================================================== -->
+
+            <div
+                class="character mysteriousCharacter"
+                data-name="Personagem Misterioso"
+            >
+
+                <div class="characterImage">
+
+                    <div class="pixelCharacter mysterious">
+
+                        <div class="mysteriousHair"></div>
+
+
+                        <div class="mysteriousHead">
+
+                            <div class="mysteriousEye eyeLeft"></div>
+                            <div class="mysteriousEye eyeRight"></div>
+
+                        </div>
+
+
+                        <div class="mysteriousBody">
+
+                            <div class="mysteriousArm mysteriousArmLeft"></div>
+                            <div class="mysteriousArm mysteriousArmRight"></div>
+
+                            <div class="mysteriousLeg mysteriousLegLeft"></div>
+                            <div class="mysteriousLeg mysteriousLegRight"></div>
+
+                            <div class="mysteriousQuestion">
+                                ?
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <div class="characterName">
+                    MISTERIOSO
+                </div>
+
+            </div>
+
+
+        </div>
+
+
+        <!-- =================================================
+             PARTE INFERIOR DA SELEÇÃO
+        ================================================== -->
+
+        <div class="characterBottom">
+
+            <div>
+                PERSONAGEM:
+
+                <strong id="selectedName">
+                    LIVIASIX
+                </strong>
+            </div>
+
+
+            <button id="confirmButton">
+                CONFIRMAR
+            </button>
+
+        </div>
+
+    </div>
+
+
+    <!-- =====================================================
+         JANELA DE INSTRUÇÕES
+    ====================================================== -->
+
+    <div
+        id="instructions"
+        class="overlay hidden"
+    >
+
+        <div class="instructionsBox">
+
+            <button id="closeInstructions">
+                ×
+            </button>
+
+
+            <h2>
+                COMO JOGAR
+            </h2>
+
+
+            <p>
+                <b>A / D</b>
+                ou
+                <b>← / →</b>
+                — Mover
+            </p>
+
+
+            <p>
+                <b>ESPAÇO / W / ↑</b>
+                — Pular
+            </p>
+
+
+            <p>
+                <b>E</b>
+                — Interagir
+            </p>
+
+
+            <hr>
+
+
+            <p>
+                Explore o ambiente, resolva os
+                desafios matemáticos e encontre
+                uma maneira de escapar.
+            </p>
+
+
+            <p class="danger">
+                ⚠ VOCÊ SÓ TEM UMA VIDA.
+            </p>
+
+        </div>
+
+    </div>
+
+
+    <!-- =====================================================
+         JAVASCRIPT
+    ====================================================== -->
+
+    <script>
+
+        const mainMenu =
+            document.getElementById("mainMenu");
+
+        const characterScreen =
+            document.getElementById("characterScreen");
+
+        const startButton =
+            document.getElementById("startButton");
+
+        const instructionsButton =
+            document.getElementById("instructionsButton");
+
+        const instructions =
+            document.getElementById("instructions");
+
+        const closeInstructions =
+            document.getElementById("closeInstructions");
+
+        const confirmButton =
+            document.getElementById("confirmButton");
+
+        const selectedName =
+            document.getElementById("selectedName");
+
+        const characters =
+            document.querySelectorAll(".character");
+
+
+        let selectedCharacter = "LiviaSix";
+
+
+        /* ==========================================
+           INICIAR JOGO
+        ========================================== */
+
+        startButton.addEventListener("click", () => {
+
+            mainMenu.classList.add("hidden");
+
+            characterScreen.classList.remove("hidden");
+
+        });
+
+
+        /* ==========================================
+           SELECIONAR PERSONAGEM
+        ========================================== */
+
+        characters.forEach(character => {
+
+            character.addEventListener("click", () => {
+
+                characters.forEach(item => {
+
+                    item.classList.remove("selected");
+
+                });
+
+
+                character.classList.add("selected");
+
+
+                selectedCharacter =
+                    character.dataset.name;
+
+
+                selectedName.textContent =
+                    selectedCharacter.toUpperCase();
+
+            });
+
+        });
+
+
+        /* ==========================================
+           CONFIRMAR PERSONAGEM
+        ========================================== */
+
+        confirmButton.addEventListener("click", () => {
+
+            localStorage.setItem(
+                "escapeMathCharacter",
+                selectedCharacter
+            );
+
+
+            window.location.href =
+                "./fase1.html";
+
+        });
+
+
+        /* ==========================================
+           ABRIR INSTRUÇÕES
+        ========================================== */
+
+        instructionsButton.addEventListener("click", () => {
+
+            instructions.classList.remove("hidden");
+
+        });
+
+
+        /* ==========================================
+           FECHAR INSTRUÇÕES
+        ========================================== */
+
+        closeInstructions.addEventListener("click", () => {
+
+            instructions.classList.add("hidden");
+
+        });
+
+
+        /* ==========================================
+           FECHAR CLICANDO FORA
+        ========================================== */
+
+        instructions.addEventListener("click", event => {
+
+            if (event.target === instructions) {
+
+                instructions.classList.add("hidden");
+
+            }
+
+        });
+
+    </script>
+
+</body>
+
+</html>

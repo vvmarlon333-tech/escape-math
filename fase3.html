@@ -1,0 +1,548 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Escape Math — Fase 3</title>
+
+    <link rel="stylesheet" href="fase3.css">
+</head>
+
+<body>
+
+<div id="game">
+
+    <!-- =====================================================
+         HUD
+    ====================================================== -->
+
+    <header id="hud">
+
+        <div class="hudLeft">
+            <span class="hudLabel">VIDAS</span>
+            <span class="hearts">♥</span>
+        </div>
+
+        <div class="hudCenter">
+
+            <div class="gameName">
+                ESCAPE MATH
+            </div>
+
+            <div class="phaseName">
+                FASE 03 — O RELÓGIO
+            </div>
+
+        </div>
+
+        <div class="hudRight">
+
+            <span class="hudLabel">STATUS</span>
+
+            <span class="hudValue">
+                03
+            </span>
+
+        </div>
+
+    </header>
+
+
+    <!-- =====================================================
+         ÁREA DO JOGO
+    ====================================================== -->
+
+    <main id="gameArea">
+
+        <div id="world">
+
+            <!-- FUNDO -->
+
+            <div class="background">
+
+                <div class="backgroundGlow glow1"></div>
+                <div class="backgroundGlow glow2"></div>
+
+            </div>
+
+
+            <!-- TETO -->
+
+            <div class="ceiling"></div>
+
+
+            <!-- TUBULAÇÕES -->
+
+            <div class="pipe pipe1"></div>
+            <div class="pipe pipe2"></div>
+            <div class="pipe pipe3"></div>
+
+
+            <!-- PAINÉIS -->
+
+            <div class="wallPanel panel1"></div>
+            <div class="wallPanel panel2"></div>
+            <div class="wallPanel panel3"></div>
+
+
+            <!-- TEXTOS -->
+
+            <div class="sectorText">
+                LAB
+            </div>
+
+            <div class="labText">
+                TEMPORAL CONTROL SYSTEM
+            </div>
+
+
+            <!-- AVISO -->
+
+            <div class="warningSymbol">
+                !
+            </div>
+
+
+            <!-- RACHADURAS -->
+
+            <div class="wallCrack crack1"></div>
+            <div class="wallCrack crack2"></div>
+            <div class="wallCrack crack3"></div>
+
+
+            <!-- =================================================
+                 CHÃO
+            ================================================== -->
+
+            <div id="ground">
+
+                <div class="floorLine"></div>
+
+                <div class="floorTile tile1"></div>
+                <div class="floorTile tile2"></div>
+                <div class="floorTile tile3"></div>
+                <div class="floorTile tile4"></div>
+                <div class="floorTile tile5"></div>
+                <div class="floorTile tile6"></div>
+
+            </div>
+
+
+            <!-- =================================================
+                 PARKOUR
+            ================================================== -->
+
+            <div class="platform platform1"></div>
+            <div class="platform platform2"></div>
+            <div class="platform platform3"></div>
+            <div class="platform platform4"></div>
+            <div class="platform platform5"></div>
+            <div class="platform platform6"></div>
+            <div class="platform platform7"></div>
+
+
+            <!-- PLATAFORMAS EXTRAS DO RELÓGIO -->
+
+            <div class="clockPlatform clockPlatform1"></div>
+            <div class="clockPlatform clockPlatform2"></div>
+
+
+            <!-- =================================================
+                 RELÓGIO
+            ================================================== -->
+
+            <div id="clock">
+
+                <div class="clockOuter">
+
+                    <div class="clockInner">
+
+                        <div class="clockNumber number12">12</div>
+                        <div class="clockNumber number1">1</div>
+                        <div class="clockNumber number2">2</div>
+                        <div class="clockNumber number3">3</div>
+                        <div class="clockNumber number4">4</div>
+                        <div class="clockNumber number5">5</div>
+                        <div class="clockNumber number6">6</div>
+                        <div class="clockNumber number7">7</div>
+                        <div class="clockNumber number8">8</div>
+                        <div class="clockNumber number9">9</div>
+                        <div class="clockNumber number10">10</div>
+                        <div class="clockNumber number11">11</div>
+
+                        <div class="clockTick tick1"></div>
+                        <div class="clockTick tick2"></div>
+                        <div class="clockTick tick3"></div>
+                        <div class="clockTick tick4"></div>
+                        <div class="clockTick tick5"></div>
+                        <div class="clockTick tick6"></div>
+                        <div class="clockTick tick7"></div>
+                        <div class="clockTick tick8"></div>
+                        <div class="clockTick tick9"></div>
+                        <div class="clockTick tick10"></div>
+                        <div class="clockTick tick11"></div>
+                        <div class="clockTick tick12"></div>
+
+                        <div id="hourHand"></div>
+                        <div id="minuteHand"></div>
+
+                        <div class="clockCenter"></div>
+
+                    </div>
+
+                </div>
+
+                <div class="clockLabel">
+                    TEMPORAL CONTROL
+                </div>
+
+            </div>
+
+
+            <!-- =================================================
+                 LUZES
+            ================================================== -->
+
+            <div class="floorLight clockLight"></div>
+            <div class="floorLight monsterLight"></div>
+
+
+            <!-- =================================================
+                 CAIXAS
+            ================================================== -->
+
+            <div class="crate crate1"></div>
+            <div class="crate crate2"></div>
+            <div class="crate crate3"></div>
+
+
+            <!-- =================================================
+                 MONSTRO
+            ================================================== -->
+
+            <div id="monster">
+
+                <div class="monsterShadow"></div>
+
+                <div class="monsterBody">
+
+                    <div class="monsterEye monsterEyeLeft"></div>
+                    <div class="monsterEye monsterEyeRight"></div>
+
+                    <div class="monsterMouth">
+
+                        <span></span>
+                        <span></span>
+                        <span></span>
+                        <span></span>
+
+                    </div>
+
+                </div>
+
+                <div class="monsterArm armLeft"></div>
+                <div class="monsterArm armRight"></div>
+
+            </div>
+
+
+            <!-- =================================================
+                 PORTA
+            ================================================== -->
+
+            <div id="door">
+
+                <div class="doorFrame">
+
+                    <div class="doorPanel">
+
+                        <div class="doorTopLight"></div>
+
+                        <div class="doorWarning">
+                            ⚠
+                        </div>
+
+                        <div class="doorText">
+                            EXIT
+                        </div>
+
+                        <div id="lock">
+                            🔒
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- =================================================
+                 PERSONAGEM
+            ================================================== -->
+
+            <div id="player">
+
+                <div class="playerShadow"></div>
+
+                <div class="playerHair"></div>
+
+                <div class="head">
+
+                    <div class="playerEye eyeLeft"></div>
+                    <div class="playerEye eyeRight"></div>
+
+                </div>
+
+                <div class="body">
+
+                    <div class="shirtDetail"></div>
+
+                </div>
+
+                <div class="leg left"></div>
+                <div class="leg right"></div>
+
+            </div>
+
+        </div>
+
+
+        <!-- =====================================================
+             INTERAÇÃO
+        ====================================================== -->
+
+        <div id="interaction">
+
+            <span id="interactionText">
+                PRESSIONE
+            </span>
+
+            <span class="keyIcon">
+                E
+            </span>
+
+            <span id="interactionAction">
+                PARA INTERAGIR
+            </span>
+
+        </div>
+
+    </main>
+
+
+    <!-- =====================================================
+         CONTROLES
+    ====================================================== -->
+
+    <div id="controls">
+
+        <span>
+            <span class="controlKey">A</span>
+            <span class="controlKey">D</span>
+            MOVER
+        </span>
+
+        <span>
+            <span class="controlKey">ESPAÇO</span>
+            PULAR
+        </span>
+
+        <span>
+            <span class="controlKey">E</span>
+            INTERAGIR
+        </span>
+
+    </div>
+
+
+    <!-- =====================================================
+         PAINEL DO RELÓGIO
+    ====================================================== -->
+
+    <div id="clockOverlay">
+
+        <div id="clockBox">
+
+            <button id="closeClock">
+                ×
+            </button>
+
+            <div class="terminalHeader">
+                TEMPORAL CONTROL SYSTEM
+                <span> // WARNING</span>
+            </div>
+
+            <div class="terminalLine"></div>
+
+            <div class="warningText">
+                SISTEMA DE CONTROLE TEMPORAL
+            </div>
+
+            <h1>
+                AJUSTE O RELÓGIO
+            </h1>
+
+            <div class="questionText">
+
+                LÁ FORA, NO MUNDO, COMEÇA A PRIMEIRA AULA DO DIA.
+                <br>
+                AJUSTE O RELÓGIO.
+
+            </div>
+
+
+            <!-- RELÓGIO INTERATIVO -->
+
+            <div class="interactiveClock">
+
+                <div class="interactiveClockFace">
+
+                    <div class="iNumber n12">12</div>
+                    <div class="iNumber n1">1</div>
+                    <div class="iNumber n2">2</div>
+                    <div class="iNumber n3">3</div>
+                    <div class="iNumber n4">4</div>
+                    <div class="iNumber n5">5</div>
+                    <div class="iNumber n6">6</div>
+                    <div class="iNumber n7">7</div>
+                    <div class="iNumber n8">8</div>
+                    <div class="iNumber n9">9</div>
+                    <div class="iNumber n10">10</div>
+                    <div class="iNumber n11">11</div>
+
+                    <div id="interactiveHourHand"></div>
+                    <div id="interactiveMinuteHand"></div>
+
+                    <div class="interactiveCenter"></div>
+
+                </div>
+
+            </div>
+
+
+            <div id="selectedTime">
+                12:00
+            </div>
+
+
+            <div class="clockInstructions">
+                CLIQUE E ARRASTE OS PONTEIROS
+                <br>
+                OU USE AS SETAS DO TECLADO
+            </div>
+
+
+            <div id="clockMessage"></div>
+
+
+            <button id="confirmTime">
+                CONFIRMAR HORÁRIO
+            </button>
+
+        </div>
+
+    </div>
+
+
+    <!-- =====================================================
+         SUCESSO
+    ====================================================== -->
+
+    <div id="successMessage">
+
+        <div class="successBox">
+
+            <div class="successLine"></div>
+
+            <div class="successIcon">
+                ✓
+            </div>
+
+            <div class="successSmall">
+                TEMPORAL CONTROL SYSTEM
+            </div>
+
+            <h1>
+                HORÁRIO CORRETO
+            </h1>
+
+            <p>
+                A PRIMEIRA AULA COMEÇOU.
+            </p>
+
+        </div>
+
+    </div>
+
+
+    <!-- =====================================================
+         MORTE
+    ====================================================== -->
+
+    <div id="deathMessage">
+
+        <div class="deathBox">
+
+            <div class="deathIcon">
+                ☠
+            </div>
+
+            <div class="deathSmall">
+                SYSTEM FAILURE
+            </div>
+
+            <h1>
+                VOCÊ MORREU
+            </h1>
+
+            <p class="redText">
+                O MONSTRO ENCONTROU VOCÊ.
+            </p>
+
+            <button id="restartButton">
+                TENTAR NOVAMENTE
+            </button>
+
+        </div>
+
+    </div>
+
+
+    <!-- =====================================================
+         FINAL
+    ====================================================== -->
+
+    <div id="finishMessage">
+
+        <div class="finishBox">
+
+            <div class="finishIcon">
+                ✓
+            </div>
+
+            <div class="finishSmall">
+                TEMPORAL CONTROL
+            </div>
+
+            <h1>
+                FASE CONCLUÍDA
+            </h1>
+
+            <p>
+                A SAÍDA FOI DESBLOQUEADA.
+            </p>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<script src="fase3.js"></script>
+
+</body>
+</html>

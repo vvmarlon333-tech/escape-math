@@ -1,0 +1,603 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Escape Math — Fase 2</title>
+
+    <link rel="stylesheet" href="fase2.css">
+</head>
+
+<body>
+
+<div id="game">
+
+    <!-- =====================================================
+         HUD
+    ====================================================== -->
+
+    <header id="hud">
+
+        <div class="hudLeft">
+            <span class="hudLabel">VIDAS</span>
+            <span class="hearts">♥</span>
+        </div>
+
+        <div class="hudCenter">
+
+            <div class="gameName">
+                ESCAPE MATH
+            </div>
+
+            <div class="phaseName">
+                FASE 02 — O COFRE
+            </div>
+
+        </div>
+
+        <div class="hudRight">
+
+            <span class="hudLabel">STATUS</span>
+
+            <span class="hudValue">
+                02
+            </span>
+
+        </div>
+
+    </header>
+
+
+    <!-- =====================================================
+         ÁREA DO JOGO
+    ====================================================== -->
+
+    <main id="gameArea">
+
+        <div id="world">
+
+            <!-- FUNDO -->
+
+            <div class="background">
+
+                <div class="backgroundGlow glow1"></div>
+                <div class="backgroundGlow glow2"></div>
+
+            </div>
+
+
+            <!-- TETO -->
+
+            <div class="ceiling"></div>
+
+
+            <!-- TUBULAÇÕES -->
+
+            <div class="pipe pipe1"></div>
+            <div class="pipe pipe2"></div>
+            <div class="pipe pipe3"></div>
+
+
+            <!-- PAINÉIS -->
+
+            <div class="wallPanel panel1"></div>
+            <div class="wallPanel panel2"></div>
+            <div class="wallPanel panel3"></div>
+
+
+            <!-- TEXTOS -->
+
+            <div class="sectorText">
+                VAULT
+            </div>
+
+            <div class="labText">
+                MATHEMATICAL SECURITY SYSTEM
+            </div>
+
+
+            <!-- AVISO -->
+
+            <div class="warningSymbol">
+                !
+            </div>
+
+
+            <!-- RACHADURAS -->
+
+            <div class="wallCrack crack1"></div>
+            <div class="wallCrack crack2"></div>
+            <div class="wallCrack crack3"></div>
+
+
+            <!-- =================================================
+                 CHÃO
+            ================================================== -->
+
+            <div id="ground">
+
+                <div class="floorLine"></div>
+
+                <div class="floorTile tile1"></div>
+                <div class="floorTile tile2"></div>
+                <div class="floorTile tile3"></div>
+                <div class="floorTile tile4"></div>
+                <div class="floorTile tile5"></div>
+                <div class="floorTile tile6"></div>
+
+            </div>
+
+
+            <!-- =================================================
+                 PLATAFORMAS
+            ================================================== -->
+
+            <div class="platform platform1"></div>
+            <div class="platform platform2"></div>
+            <div class="platform platform3"></div>
+            <div class="platform platform4"></div>
+            <div class="platform platform5"></div>
+            <div class="platform platform6"></div>
+            <div class="platform platform7"></div>
+
+
+            <!-- =================================================
+                 PEÇAS
+            ================================================== -->
+
+            <div
+                class="numberPiece piece1"
+                data-value="5">
+                5
+            </div>
+
+            <div
+                class="numberPiece piece2"
+                data-value="8">
+                8
+            </div>
+
+            <div
+                class="numberPiece piece3"
+                data-value="12">
+                12
+            </div>
+
+            <div
+                class="numberPiece piece4"
+                data-value="8">
+                8
+            </div>
+
+            <div
+                class="numberPiece piece5"
+                data-value="6">
+                6
+            </div>
+
+            <div
+                class="numberPiece piece6"
+                data-value="8">
+                8
+            </div>
+
+            <div
+                class="numberPiece piece8"
+                data-value="4">
+                4
+            </div>
+
+
+            <!-- =================================================
+                 COFRE
+            ================================================== -->
+
+            <div id="safe">
+
+                <div class="safeTopLight"></div>
+
+                <div class="safeBody">
+
+                    <div class="safeTitle">
+                        VAULT
+                    </div>
+
+                    <div class="safeDoor">
+
+                        <div class="safeLocks">
+
+                            <div
+                                class="safeLock"
+                                data-lock="0">
+                                ?
+                            </div>
+
+                            <div
+                                class="safeLock"
+                                data-lock="1">
+                                ?
+                            </div>
+
+                            <div
+                                class="safeLock"
+                                data-lock="2">
+                                ?
+                            </div>
+
+                        </div>
+
+                        <div class="safeWheel">
+
+                            <div class="safeWheelCenter"></div>
+
+                        </div>
+
+                        <div id="codeDisplay">
+                            ---
+                        </div>
+
+                    </div>
+
+                </div>
+
+                <div class="safeBottom"></div>
+
+            </div>
+
+
+            <!-- LUZES -->
+
+            <div class="floorLight computerLight"></div>
+            <div class="floorLight monsterLight"></div>
+
+
+            <!-- CAIXAS -->
+
+            <div class="crate crate1"></div>
+            <div class="crate crate2"></div>
+            <div class="crate crate3"></div>
+
+
+            <!-- =================================================
+                 MONSTRO
+            ================================================== -->
+
+            <div id="monster">
+
+                <div class="monsterShadow"></div>
+
+                <div class="monsterBody">
+
+                    <div class="monsterEye monsterEyeLeft"></div>
+                    <div class="monsterEye monsterEyeRight"></div>
+
+                    <div class="monsterMouth">
+
+                        <span></span>
+                        <span></span>
+                        <span></span>
+                        <span></span>
+
+                    </div>
+
+                </div>
+
+                <div class="monsterArm armLeft"></div>
+                <div class="monsterArm armRight"></div>
+
+            </div>
+
+
+            <!-- =================================================
+                 PORTA
+            ================================================== -->
+
+            <div id="door">
+
+                <div class="doorFrame">
+
+                    <div class="doorPanel">
+
+                        <div class="doorTopLight"></div>
+
+                        <div class="doorWarning">
+                            ⚠
+                        </div>
+
+                        <div class="doorText">
+                            EXIT
+                        </div>
+
+                        <div id="lock">
+                            🔒
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- =================================================
+                 PERSONAGEM
+            ================================================== -->
+
+            <div id="player">
+
+                <div class="playerShadow"></div>
+
+                <div class="playerHair"></div>
+
+                <div class="head">
+
+                    <div class="playerEye eyeLeft"></div>
+                    <div class="playerEye eyeRight"></div>
+
+                </div>
+
+                <div class="body">
+
+                    <div class="shirtDetail"></div>
+
+                </div>
+
+                <div class="leg left"></div>
+                <div class="leg right"></div>
+
+                <div id="carriedPiece"></div>
+
+            </div>
+
+        </div>
+
+
+        <!-- =====================================================
+             INTERAÇÃO
+        ====================================================== -->
+
+        <div id="interaction">
+
+            <span id="interactionText">
+                PRESSIONE
+            </span>
+
+            <span class="keyIcon">
+                E
+            </span>
+
+            <span id="interactionAction">
+                PARA INTERAGIR
+            </span>
+
+        </div>
+
+    </main>
+
+
+    <!-- =====================================================
+         CONTROLES
+    ====================================================== -->
+
+    <div id="controls">
+
+        <span>
+            <span class="controlKey">A</span>
+            <span class="controlKey">D</span>
+            MOVER
+        </span>
+
+        <span>
+            <span class="controlKey">ESPAÇO</span>
+            PULAR
+        </span>
+
+        <span>
+            <span class="controlKey">E</span>
+            INTERAGIR
+        </span>
+
+    </div>
+
+
+    <!-- =====================================================
+         PAINEL MATEMÁTICO
+    ====================================================== -->
+
+    <div id="mathOverlay">
+
+        <div id="mathBox">
+
+            <button id="closeMath">
+                ×
+            </button>
+
+            <div class="terminalHeader">
+                VAULT SECURITY SYSTEM
+                <span> // WARNING</span>
+            </div>
+
+            <div class="terminalLine"></div>
+
+            <div class="warningText">
+                SISTEMA DE SEGURANÇA MATEMÁTICO
+            </div>
+
+            <h1>
+                ENCONTRE O CÓDIGO
+            </h1>
+
+            <div class="questionText">
+
+                Resolva as três equações.
+                <br>
+                Todas possuem a mesma resposta.
+
+            </div>
+
+            <div class="sequence">
+
+                <strong>X + 7 = 15</strong>
+
+                <b>•</b>
+
+                <strong>2 × X = 16</strong>
+
+                <b>•</b>
+
+                <strong>X − 2 = 6</strong>
+
+            </div>
+
+            <div class="questionText">
+
+                O número correto está escondido
+                em peças espalhadas pelo cenário.
+
+                <br><br>
+
+                Encontre as peças e coloque-as no cofre.
+
+            </div>
+
+            <button id="startVault">
+                INICIAR
+            </button>
+
+        </div>
+
+    </div>
+
+
+    <!-- =====================================================
+         MENSAGEM DE PEÇA
+    ====================================================== -->
+
+    <div id="pieceMessage">
+
+        <div class="pieceMessageBox">
+
+            <div class="terminalHeader">
+                VAULT SYSTEM
+            </div>
+
+            <div class="terminalLine"></div>
+
+            <div id="pieceMessageTitle">
+                PEÇA INCORRETA
+            </div>
+
+            <div id="pieceMessageText">
+                Essa peça não corresponde à trava.
+            </div>
+
+            <button id="closePieceMessage">
+                CONTINUAR
+            </button>
+
+        </div>
+
+    </div>
+
+
+    <!-- =====================================================
+         SUCESSO
+    ====================================================== -->
+
+    <div id="successMessage">
+
+        <div class="successBox">
+
+            <div class="successLine"></div>
+
+            <div class="successIcon">
+                ✓
+            </div>
+
+            <div class="successSmall">
+                SECURITY SYSTEM
+            </div>
+
+            <h1>
+                TRAVA DESBLOQUEADA
+            </h1>
+
+            <p>
+                PEÇA 8 ACEITA.
+            </p>
+
+        </div>
+
+    </div>
+
+
+    <!-- =====================================================
+         MORTE
+    ====================================================== -->
+
+    <div id="deathMessage">
+
+        <div class="deathBox">
+
+            <div class="deathIcon">
+                ☠
+            </div>
+
+            <div class="deathSmall">
+                SYSTEM FAILURE
+            </div>
+
+            <h1>
+                VOCÊ MORREU
+            </h1>
+
+            <p class="redText">
+                O MONSTRO ENCONTROU VOCÊ.
+            </p>
+
+            <button id="restartButton">
+                TENTAR NOVAMENTE
+            </button>
+
+        </div>
+
+    </div>
+
+
+    <!-- =====================================================
+         FINAL
+    ====================================================== -->
+
+    <div id="finishMessage">
+
+        <div class="finishBox">
+
+            <div class="finishIcon">
+                ✓
+            </div>
+
+            <div class="finishSmall">
+                VAULT SECURITY
+            </div>
+
+            <h1>
+                COFRE ABERTO
+            </h1>
+
+            <p>
+                A SAÍDA FOI DESBLOQUEADA.
+            </p>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<script src="fase2.js"></script>
+
+</body>
+</html>

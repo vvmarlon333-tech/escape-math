@@ -1,0 +1,4272 @@
+/* =========================================================
+   ESCAPE MATH — FASE 3
+   O RELÓGIO
+========================================================= */
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+html,
+body {
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+}
+
+body {
+    background: #030303;
+    color: #fff;
+    font-family: "Courier New", monospace;
+}
+
+button,
+input {
+    font-family: inherit;
+}
+
+button {
+    cursor: pointer;
+}
+
+/* =========================================================
+   JOGO
+========================================================= */
+
+#game {
+    position: relative;
+    width: 100vw;
+    height: 100vh;
+    overflow: hidden;
+    background: #050505;
+}
+
+/* =========================================================
+   HUD
+========================================================= */
+
+#hud {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+
+    height: 68px;
+
+    z-index: 1000;
+
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    padding: 0 35px;
+
+    background: linear-gradient(
+        180deg,
+        #080808,
+        #050505
+    );
+
+    border-bottom: 1px solid #351010;
+
+    box-shadow:
+        0 5px 20px rgba(0,0,0,.8);
+}
+
+.hudLeft,
+.hudRight {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.hudLabel {
+    color: #555;
+    font-size: 10px;
+    letter-spacing: 2px;
+}
+
+.hudValue {
+    color: #ddd;
+    font-size: 22px;
+}
+
+.hudCenter {
+    position: absolute;
+    left: 50%;
+
+    transform: translateX(-50%);
+
+    text-align: center;
+}
+
+.gameName {
+    color: #eee;
+    font-size: 14px;
+    font-weight: bold;
+    letter-spacing: 5px;
+}
+
+.phaseName {
+    margin-top: 3px;
+
+    color: #7d1717;
+
+    font-size: 9px;
+    letter-spacing: 4px;
+}
+
+.hearts {
+    color: #c51616;
+
+    font-size: 22px;
+
+    text-shadow:
+        0 0 8px rgba(255,0,0,.4);
+}
+
+/* =========================================================
+   ÁREA DO JOGO
+========================================================= */
+
+#gameArea {
+    position: absolute;
+
+    top: 68px;
+    bottom: 48px;
+    left: 0;
+    right: 0;
+
+    overflow: hidden;
+
+    background: #090909;
+}
+
+#world {
+    position: absolute;
+
+    left: 0;
+    top: 0;
+
+    width: 2400px;
+    height: 100%;
+
+    overflow: hidden;
+}
+
+/* =========================================================
+   FUNDO
+========================================================= */
+
+.background {
+    position: absolute;
+
+    inset: 0;
+
+    background:
+        linear-gradient(
+            180deg,
+            #080808 0%,
+            #101010 45%,
+            #090909 100%
+        );
+
+    z-index: 1;
+}
+
+.background::before {
+    content: "";
+
+    position: absolute;
+
+    inset: 0;
+
+    background:
+        repeating-linear-gradient(
+            90deg,
+            transparent 0,
+            transparent 118px,
+            rgba(255,255,255,.015) 119px,
+            transparent 120px
+        );
+}
+
+.backgroundGlow {
+    position: absolute;
+
+    width: 500px;
+    height: 500px;
+
+    border-radius: 50%;
+
+    filter: blur(80px);
+
+    opacity: .15;
+}
+
+.glow1 {
+    left: 400px;
+    top: 80px;
+
+    background: #701010;
+}
+
+.glow2 {
+    left: 1550px;
+    top: 180px;
+
+    background: #380909;
+}
+
+/* =========================================================
+   TETO
+========================================================= */
+
+.ceiling {
+    position: absolute;
+
+    top: 0;
+    left: 0;
+
+    width: 2400px;
+    height: 55px;
+
+    background:
+        repeating-linear-gradient(
+            90deg,
+            #171717 0,
+            #171717 70px,
+            #111 71px,
+            #111 74px
+        );
+
+    border-bottom: 3px solid #3b1111;
+
+    box-shadow:
+        0 10px 25px rgba(0,0,0,.7);
+
+    z-index: 8;
+}
+
+/* =========================================================
+   TUBULAÇÕES
+========================================================= */
+
+.pipe {
+    position: absolute;
+
+    height: 12px;
+
+    background:
+        linear-gradient(
+            180deg,
+            #4a4a4a,
+            #1b1b1b
+        );
+
+    border: 1px solid #666;
+
+    box-shadow:
+        0 4px 8px rgba(0,0,0,.7);
+
+    z-index: 6;
+}
+
+.pipe::after {
+    content: "";
+
+    position: absolute;
+
+    left: 0;
+    right: 0;
+
+    top: 3px;
+
+    height: 2px;
+
+    background: #666;
+
+    opacity: .4;
+}
+
+.pipe1 {
+    left: 150px;
+    top: 92px;
+
+    width: 650px;
+}
+
+.pipe2 {
+    left: 900px;
+    top: 125px;
+
+    width: 520px;
+}
+
+.pipe3 {
+    left: 1500px;
+    top: 95px;
+
+    width: 650px;
+}
+
+/* =========================================================
+   PAINÉIS
+========================================================= */
+
+.wallPanel {
+    position: absolute;
+
+    top: 145px;
+
+    width: 170px;
+    height: 210px;
+
+    background:
+        linear-gradient(
+            135deg,
+            #171717,
+            #0b0b0b
+        );
+
+    border: 1px solid #303030;
+
+    box-shadow:
+        inset 0 0 25px rgba(0,0,0,.8),
+        0 10px 20px rgba(0,0,0,.35);
+
+    z-index: 5;
+}
+
+.panel1 {
+    left: 110px;
+}
+
+.panel2 {
+    left: 760px;
+}
+
+.panel3 {
+    left: 1650px;
+}
+
+.wallPanel::before {
+    content: "";
+
+    position: absolute;
+
+    left: 15px;
+    right: 15px;
+    top: 20px;
+
+    height: 3px;
+
+    background: #351010;
+}
+
+.wallPanel::after {
+    content: "";
+
+    position: absolute;
+
+    left: 25px;
+    right: 25px;
+    bottom: 25px;
+
+    height: 70px;
+
+    border:
+        1px solid #242424;
+}
+
+/* =========================================================
+   TEXTOS DO LABORATÓRIO
+========================================================= */
+
+.sectorText {
+    position: absolute;
+
+    left: 105px;
+    top: 105px;
+
+    color: #3d1111;
+
+    font-size: 40px;
+    font-weight: bold;
+
+    letter-spacing: 10px;
+
+    opacity: .6;
+
+    z-index: 4;
+}
+
+.labText {
+    position: absolute;
+
+    left: 770px;
+    top: 175px;
+
+    color: #373737;
+
+    font-size: 12px;
+
+    letter-spacing: 5px;
+
+    z-index: 7;
+}
+
+.warningSymbol {
+    position: absolute;
+
+    left: 1735px;
+    top: 180px;
+
+    width: 55px;
+    height: 55px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    color: #681313;
+
+    border: 2px solid #451010;
+
+    font-size: 30px;
+    font-weight: bold;
+
+    z-index: 7;
+}
+
+/* =========================================================
+   RACHADURAS
+========================================================= */
+
+.wallCrack {
+    position: absolute;
+
+    width: 100px;
+    height: 3px;
+
+    background: #252525;
+
+    transform: rotate(-20deg);
+
+    opacity: .7;
+
+    z-index: 7;
+}
+
+.crack1 {
+    left: 380px;
+    top: 245px;
+}
+
+.crack2 {
+    left: 1370px;
+    top: 210px;
+
+    transform: rotate(15deg);
+}
+
+.crack3 {
+    left: 1870px;
+    top: 300px;
+
+    transform: rotate(-12deg);
+}
+
+/* =========================================================
+   CHÃO
+========================================================= */
+
+#ground {
+    position: absolute;
+
+    left: 0;
+    bottom: 0;
+
+    width: 2400px;
+    height: 100px;
+
+    background:
+        repeating-linear-gradient(
+            90deg,
+            #141414 0,
+            #141414 78px,
+            #101010 79px,
+            #101010 80px
+        );
+
+    border-top: 3px solid #441313;
+
+    box-shadow:
+        inset 0 15px 30px rgba(0,0,0,.5);
+
+    z-index: 20;
+}
+
+.floorLine {
+    position: absolute;
+
+    left: 0;
+    top: 24px;
+
+    width: 100%;
+
+    height: 1px;
+
+    background: #252525;
+}
+
+.floorTile {
+    position: absolute;
+
+    bottom: 25px;
+
+    width: 75px;
+    height: 3px;
+
+    background: #242424;
+}
+
+.tile1 {
+    left: 120px;
+}
+
+.tile2 {
+    left: 520px;
+}
+
+.tile3 {
+    left: 930px;
+}
+
+.tile4 {
+    left: 1320px;
+}
+
+.tile5 {
+    left: 1710px;
+}
+
+.tile6 {
+    left: 2100px;
+}
+
+/* =========================================================
+   PLATAFORMAS / PARKOUR
+========================================================= */
+
+.platform,
+.clockPlatform {
+    position: absolute;
+
+    height: 20px;
+
+    background:
+        linear-gradient(
+            180deg,
+            #3c3c3c,
+            #181818
+        );
+
+    border: 1px solid #555;
+
+    border-bottom: 3px solid #4b1111;
+
+    box-shadow:
+        0 6px 12px rgba(0,0,0,.7);
+
+    z-index: 25;
+}
+
+.platform::before,
+.clockPlatform::before {
+    content: "";
+
+    position: absolute;
+
+    left: 12px;
+    right: 12px;
+
+    top: 5px;
+
+    height: 1px;
+
+    background: #696969;
+}
+
+.platform::after,
+.clockPlatform::after {
+    content: "";
+
+    position: absolute;
+
+    left: 18px;
+    right: 18px;
+
+    bottom: -9px;
+
+    height: 8px;
+
+    border-left: 2px solid #292929;
+    border-right: 2px solid #292929;
+}
+
+/* ---------------------------------------------------------
+   PARKOUR
+--------------------------------------------------------- */
+
+.platform1 {
+    left: 260px;
+    top: calc(100% - 155px);
+    width: 180px;
+}
+
+.platform2 {
+    left: 490px;
+    top: calc(100% - 215px);
+    width: 170px;
+}
+
+.platform3 {
+    left: 700px;
+    top: calc(100% - 275px);
+    width: 170px;
+}
+
+.platform4 {
+    left: 900px;
+    top: calc(100% - 335px);
+    width: 165px;
+}
+
+.platform5 {
+    left: 1090px;
+    top: calc(100% - 395px);
+    width: 155px;
+}
+
+.platform6 {
+    left: 1280px;
+    top: calc(100% - 335px);
+    width: 165px;
+}
+
+.platform7 {
+    left: 1490px;
+    top: calc(100% - 275px);
+    width: 180px;
+}
+
+/* ---------------------------------------------------------
+   PLATAFORMAS DO RELÓGIO
+--------------------------------------------------------- */
+
+.clockPlatform1 {
+    left: 1970px;
+    top: calc(100% - 430px);
+    width: 180px;
+}
+
+.clockPlatform2 {
+    left: 2180px;
+    top: calc(100% - 510px);
+    width: 180px;
+}
+
+/* =========================================================
+   RELÓGIO DO CENÁRIO
+   IMPORTANTE:
+   ESTE RELÓGIO É TOTALMENTE SEPARADO DO RELÓGIO DO PAINEL.
+========================================================= */
+
+#clock {
+    position: absolute;
+
+    left: 1080px;
+    top: 35px;
+
+    width: 130px;
+    height: 165px;
+
+    z-index: 40;
+
+    pointer-events: none;
+}
+
+/* estrutura externa */
+
+.clockOuter {
+    position: relative;
+
+    width: 130px;
+    height: 140px;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/* mostrador */
+
+#clock .clockInner {
+    position: relative;
+
+    width: 120px;
+    height: 120px;
+
+    border-radius: 50%;
+
+    background:
+        radial-gradient(
+            circle,
+            #242424 0%,
+            #111 60%,
+            #070707 100%
+        );
+
+    border: 5px solid #3d3d3d;
+
+    box-shadow:
+        0 8px 20px rgba(0,0,0,.85),
+        inset 0 0 20px #000;
+
+    overflow: hidden;
+}
+
+/* brilho interno */
+
+#clock .clockInner::before {
+    content: "";
+
+    position: absolute;
+
+    left: 12px;
+    top: 12px;
+
+    width: 70px;
+    height: 30px;
+
+    border-radius: 50%;
+
+    background: rgba(255,255,255,.035);
+
+    transform: rotate(-25deg);
+
+    pointer-events: none;
+}
+
+/* números */
+
+#clock .clockNumber {
+    position: absolute;
+
+    z-index: 3;
+
+    color: #aaa;
+
+    font-size: 8px;
+    font-weight: bold;
+
+    line-height: 1;
+
+    transform: translate(-50%, -50%);
+
+    text-shadow:
+        0 1px 2px #000;
+}
+
+/* posições corretas do relógio de 120px */
+
+#clock .number12 {
+    left: 60px;
+    top: 11px;
+}
+
+#clock .number1 {
+    left: 85px;
+    top: 18px;
+}
+
+#clock .number2 {
+    left: 103px;
+    top: 36px;
+}
+
+#clock .number3 {
+    left: 109px;
+    top: 60px;
+}
+
+#clock .number4 {
+    left: 103px;
+    top: 84px;
+}
+
+#clock .number5 {
+    left: 85px;
+    top: 102px;
+}
+
+#clock .number6 {
+    left: 60px;
+    top: 109px;
+}
+
+#clock .number7 {
+    left: 35px;
+    top: 102px;
+}
+
+#clock .number8 {
+    left: 17px;
+    top: 84px;
+}
+
+#clock .number9 {
+    left: 11px;
+    top: 60px;
+}
+
+#clock .number10 {
+    left: 17px;
+    top: 36px;
+}
+
+#clock .number11 {
+    left: 35px;
+    top: 18px;
+}
+
+/* =========================================================
+   MARCAÇÕES DO RELÓGIO
+========================================================= */
+
+#clock .clockTick {
+    position: absolute;
+
+    left: 50%;
+    top: 50%;
+
+    width: 1px;
+    height: 4px;
+
+    background: #777;
+
+    transform-origin: 50% 0;
+
+    z-index: 2;
+}
+
+#clock .tick1 {
+    transform: translate(-50%, -50%) rotate(0deg)
+        translateY(-52px);
+}
+
+#clock .tick2 {
+    transform: translate(-50%, -50%) rotate(30deg)
+        translateY(-52px);
+}
+
+#clock .tick3 {
+    transform: translate(-50%, -50%) rotate(60deg)
+        translateY(-52px);
+}
+
+#clock .tick4 {
+    transform: translate(-50%, -50%) rotate(90deg)
+        translateY(-52px);
+}
+
+#clock .tick5 {
+    transform: translate(-50%, -50%) rotate(120deg)
+        translateY(-52px);
+}
+
+#clock .tick6 {
+    transform: translate(-50%, -50%) rotate(150deg)
+        translateY(-52px);
+}
+
+#clock .tick7 {
+    transform: translate(-50%, -50%) rotate(180deg)
+        translateY(-52px);
+}
+
+#clock .tick8 {
+    transform: translate(-50%, -50%) rotate(210deg)
+        translateY(-52px);
+}
+
+#clock .tick9 {
+    transform: translate(-50%, -50%) rotate(240deg)
+        translateY(-52px);
+}
+
+#clock .tick10 {
+    transform: translate(-50%, -50%) rotate(270deg)
+        translateY(-52px);
+}
+
+#clock .tick11 {
+    transform: translate(-50%, -50%) rotate(300deg)
+        translateY(-52px);
+}
+
+#clock .tick12 {
+    transform: translate(-50%, -50%) rotate(330deg)
+        translateY(-52px);
+}
+
+/* =========================================================
+   PONTEIROS DO RELÓGIO DO CENÁRIO
+========================================================= */
+
+#clock #hourHand,
+#clock #minuteHand {
+    position: absolute;
+
+    left: 50%;
+    bottom: 50%;
+
+    transform-origin: 50% 100%;
+
+    border-radius: 5px;
+
+    pointer-events: none;
+
+    z-index: 6;
+}
+
+#clock #hourHand {
+    width: 3px;
+    height: 28px;
+
+    margin-left: -1.5px;
+
+    background: #d0d0d0;
+}
+
+#clock #minuteHand {
+    width: 2px;
+    height: 40px;
+
+    margin-left: -1px;
+
+    background: #a91b1b;
+}
+
+#clock .clockCenter {
+    position: absolute;
+
+    left: 50%;
+    top: 50%;
+
+    width: 8px;
+    height: 8px;
+
+    margin-left: -4px;
+    margin-top: -4px;
+
+    border-radius: 50%;
+
+    background: #777;
+
+    border: 1px solid #111;
+
+    z-index: 10;
+}
+
+/* etiqueta */
+
+.clockLabel {
+    width: 130px;
+
+    margin-top: 1px;
+
+    text-align: center;
+
+    color: #5a1616;
+
+    font-size: 7px;
+
+    letter-spacing: 2px;
+
+    white-space: nowrap;
+}
+
+/* =========================================================
+   LUZES
+========================================================= */
+
+.floorLight {
+    position: absolute;
+
+    width: 55px;
+    height: 8px;
+
+    border-radius: 50%;
+
+    opacity: .65;
+
+    filter: blur(2px);
+
+    z-index: 22;
+}
+
+.clockLight {
+    left: 1090px;
+    bottom: 120px;
+
+    background: #7d1717;
+
+    box-shadow:
+        0 0 30px #7d1717;
+}
+
+.monsterLight {
+    left: 1380px;
+    bottom: 120px;
+
+    background: #511010;
+
+    box-shadow:
+        0 0 25px #511010;
+}
+
+/* =========================================================
+   CAIXAS
+========================================================= */
+
+.crate {
+    position: absolute;
+
+    width: 75px;
+    height: 65px;
+
+    background:
+        linear-gradient(
+            135deg,
+            #292929,
+            #111
+        );
+
+    border: 2px solid #3d3d3d;
+
+    box-shadow:
+        0 10px 15px rgba(0,0,0,.7);
+
+    z-index: 23;
+}
+
+.crate::before,
+.crate::after {
+    content: "";
+
+    position: absolute;
+
+    background: #351010;
+}
+
+.crate::before {
+    left: 0;
+    right: 0;
+
+    top: 50%;
+
+    height: 2px;
+}
+
+.crate::after {
+    top: 0;
+    bottom: 0;
+
+    left: 50%;
+
+    width: 2px;
+}
+
+.crate1 {
+    left: 780px;
+    bottom: 100px;
+}
+
+.crate2 {
+    left: 1510px;
+    bottom: 100px;
+}
+
+.crate3 {
+    left: 1780px;
+    bottom: 100px;
+}
+
+/* =========================================================
+   MONSTRO
+========================================================= */
+
+#monster {
+    position: absolute;
+
+    left: 1250px;
+    bottom: 100px;
+
+    width: 72px;
+    height: 105px;
+
+    z-index: 60;
+}
+
+.monsterShadow {
+    position: absolute;
+
+    left: 5px;
+    bottom: -5px;
+
+    width: 62px;
+    height: 13px;
+
+    border-radius: 50%;
+
+    background: #000;
+
+    filter: blur(4px);
+
+    opacity: .8;
+}
+
+.monsterBody {
+    position: absolute;
+
+    left: 12px;
+    top: 10px;
+
+    width: 48px;
+    height: 75px;
+
+    background:
+        linear-gradient(
+            180deg,
+            #161616,
+            #050505
+        );
+
+    border:
+        2px solid #471010;
+
+    border-radius:
+        45% 45% 35% 35%;
+
+    box-shadow:
+        0 0 18px rgba(100,0,0,.35);
+}
+
+.monsterEye {
+    position: absolute;
+
+    top: 20px;
+
+    width: 8px;
+    height: 8px;
+
+    border-radius: 50%;
+
+    background: #b41414;
+
+    box-shadow:
+        0 0 8px #c41414;
+}
+
+.monsterEyeLeft {
+    left: 11px;
+}
+
+.monsterEyeRight {
+    right: 11px;
+}
+
+.monsterMouth {
+    position: absolute;
+
+    left: 9px;
+    bottom: 13px;
+
+    width: 26px;
+    height: 20px;
+
+    border:
+        2px solid #651010;
+
+    background: #030303;
+
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+}
+
+.monsterMouth span {
+    width: 2px;
+    height: 9px;
+
+    background: #999;
+}
+
+.monsterArm {
+    position: absolute;
+
+    top: 42px;
+
+    width: 12px;
+    height: 45px;
+
+    background: #111;
+
+    border:
+        1px solid #3c0d0d;
+
+    border-radius: 8px;
+}
+
+.armLeft {
+    left: 2px;
+
+    transform: rotate(18deg);
+}
+
+.armRight {
+    right: 2px;
+
+    transform: rotate(-18deg);
+}
+
+/* =========================================================
+   PORTA
+========================================================= */
+
+#door {
+    position: absolute;
+
+    left: 2240px;
+    bottom: 100px;
+
+    width: 105px;
+    height: 220px;
+
+    z-index: 30;
+}
+
+.doorFrame {
+    position: absolute;
+
+    inset: 0;
+
+    padding: 10px;
+
+    background:
+        linear-gradient(
+            180deg,
+            #383838,
+            #151515
+        );
+
+    border:
+        2px solid #555;
+
+    box-shadow:
+        0 10px 30px rgba(0,0,0,.8);
+}
+
+.doorPanel {
+    position: relative;
+
+    width: 100%;
+    height: 100%;
+
+    background:
+        linear-gradient(
+            180deg,
+            #171717,
+            #080808
+        );
+
+    border:
+        1px solid #3b1111;
+}
+
+.doorTopLight {
+    position: absolute;
+
+    left: 15px;
+    right: 15px;
+    top: 12px;
+
+    height: 5px;
+
+    background: #4a0e0e;
+}
+
+.doorWarning {
+    position: absolute;
+
+    left: 50%;
+    top: 65px;
+
+    transform: translateX(-50%);
+
+    color: #751414;
+
+    font-size: 25px;
+}
+
+.doorText {
+    position: absolute;
+
+    left: 50%;
+    top: 108px;
+
+    transform: translateX(-50%);
+
+    color: #777;
+
+    font-size: 11px;
+
+    letter-spacing: 3px;
+}
+
+#lock {
+    position: absolute;
+
+    left: 50%;
+    bottom: 25px;
+
+    transform: translateX(-50%);
+
+    font-size: 18px;
+
+    opacity: .65;
+}
+
+#door.unlocked .doorTopLight {
+    background: #b31b1b;
+
+    box-shadow:
+        0 0 15px #8e1515;
+}
+
+#door.unlocked #lock {
+    opacity: 1;
+}
+
+/* =========================================================
+   PERSONAGEM
+========================================================= */
+
+/* =========================================================
+   PLAYER
+========================================================= */
+
+#player {
+    position: absolute;
+    width: 38px;
+    height: 62px;
+    z-index: 100;
+}
+
+.playerShadow {
+    position: absolute;
+    left: 0;
+    bottom: -4px;
+    width: 38px;
+    height: 8px;
+    background: #000;
+    border-radius: 50%;
+    filter: blur(2px);
+}
+
+.playerHair {
+    position: absolute;
+    left: 7px;
+    top: -1px;
+    width: 25px;
+    height: 13px;
+    background: #171717;
+    border-radius: 12px 12px 4px 4px;
+    z-index: 3;
+}
+
+.head {
+    position: absolute;
+    left: 6px;
+    top: 3px;
+    width: 26px;
+    height: 26px;
+    background: #b8b8b8;
+    border: 2px solid #202020;
+    z-index: 2;
+}
+
+.playerEye {
+    position: absolute;
+    top: 10px;
+    width: 3px;
+    height: 3px;
+    background: #111;
+}
+
+.eyeLeft {
+    left: 6px;
+}
+
+.eyeRight {
+    right: 6px;
+}
+
+.body {
+    position: absolute;
+    left: 4px;
+    top: 27px;
+    width: 30px;
+    height: 25px;
+
+    background:
+        linear-gradient(
+            90deg,
+            #590000,
+            #9c1010,
+            #590000
+        );
+
+    border: 2px solid #210000;
+    z-index: 2;
+}
+
+.shirtDetail {
+    position: absolute;
+    left: 13px;
+    top: 4px;
+    width: 3px;
+    height: 15px;
+    background: #d0d0d0;
+    opacity: .35;
+}
+
+.leg {
+    position: absolute;
+    top: 49px;
+    width: 10px;
+    height: 14px;
+    background: #262626;
+    border: 2px solid #111;
+}
+
+.leg.left {
+    left: 7px;
+}
+
+.leg.right {
+    right: 7px;
+}
+/* =========================================================
+   CONTROLES
+========================================================= */
+
+#controls {
+    position: absolute;
+
+    left: 0;
+    right: 0;
+    bottom: 0;
+
+    height: 48px;
+
+    z-index: 1000;
+
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    gap: 45px;
+
+    background: #060606;
+
+    border-top: 1px solid #1f1f1f;
+
+    color: #555;
+
+    font-size: 10px;
+
+    letter-spacing: 1px;
+}
+
+.controlKey {
+    display: inline-flex;
+
+    align-items: center;
+    justify-content: center;
+
+    min-width: 24px;
+    height: 22px;
+
+    margin-right: 4px;
+    padding: 0 5px;
+
+    color: #aaa;
+
+    background: #161616;
+
+    border: 1px solid #333;
+
+    font-size: 9px;
+}
+
+/* =========================================================
+   OVERLAY DO RELÓGIO
+========================================================= */
+
+#clockOverlay {
+    position: absolute;
+
+    inset: 0;
+
+    z-index: 2000;
+
+    display: none;
+
+    align-items: center;
+    justify-content: center;
+
+    background:
+        rgba(0,0,0,.88);
+
+    backdrop-filter: blur(3px);
+}
+
+#clockOverlay.active {
+    display: flex;
+}
+
+/* =========================================================
+   CAIXA DO RELÓGIO
+========================================================= */
+
+#clockBox {
+    position: relative;
+
+    width: min(560px, 90vw);
+
+    padding: 28px 32px 30px;
+
+    background:
+        linear-gradient(
+            180deg,
+            #111,
+            #070707
+        );
+
+    border:
+        1px solid #4c1111;
+
+    box-shadow:
+        0 0 50px rgba(0,0,0,.9),
+        0 0 25px rgba(100,0,0,.15);
+
+    text-align: center;
+}
+
+#closeClock {
+    position: absolute;
+
+    top: 10px;
+    right: 14px;
+
+    width: 30px;
+    height: 30px;
+
+    border: none;
+
+    background: transparent;
+
+    color: #666;
+
+    font-size: 25px;
+}
+
+#closeClock:hover {
+    color: #b51a1a;
+}
+
+/* =========================================================
+   CABEÇALHO DO TERMINAL
+========================================================= */
+
+.terminalHeader {
+    color: #777;
+
+    font-size: 10px;
+
+    letter-spacing: 3px;
+
+    text-align: left;
+}
+
+.terminalHeader span {
+    color: #721414;
+}
+
+.terminalLine {
+    width: 100%;
+    height: 1px;
+
+    margin: 12px 0 18px;
+
+    background: #351010;
+}
+
+.warningText {
+    color: #7d1717;
+
+    font-size: 9px;
+
+    letter-spacing: 3px;
+}
+
+#clockBox h1 {
+    margin-top: 10px;
+
+    color: #ddd;
+
+    font-size: 22px;
+
+    letter-spacing: 4px;
+}
+
+.questionText {
+    margin-top: 15px;
+
+    color: #999;
+
+    font-size: 11px;
+
+    line-height: 1.8;
+
+    letter-spacing: 1px;
+}
+
+/* =========================================================
+   RELÓGIO INTERATIVO
+   NÃO USA AS REGRAS DO RELÓGIO DO CENÁRIO
+========================================================= */
+
+.interactiveClock {
+    display: flex;
+
+    justify-content: center;
+    align-items: center;
+
+    margin: 25px auto 12px;
+}
+
+#clockBox .interactiveClockFace {
+    position: relative;
+
+    width: 210px;
+    height: 210px;
+
+    border-radius: 50%;
+
+    background:
+        radial-gradient(
+            circle,
+            #242424,
+            #080808 72%
+        );
+
+    border: 7px solid #3d3d3d;
+
+    box-shadow:
+        0 10px 30px rgba(0,0,0,.8),
+        inset 0 0 25px #000;
+}
+
+/* =========================================================
+   NÚMEROS DO RELÓGIO INTERATIVO
+========================================================= */
+
+#clockBox .iNumber {
+    position: absolute;
+
+    color: #aaa;
+
+    font-size: 13px;
+    font-weight: bold;
+
+    transform: translate(-50%, -50%);
+
+    z-index: 2;
+}
+
+#clockBox .n12 {
+    left: 105px;
+    top: 20px;
+}
+
+#clockBox .n1 {
+    left: 148px;
+    top: 32px;
+}
+
+#clockBox .n2 {
+    left: 178px;
+    top: 62px;
+}
+
+#clockBox .n3 {
+    left: 188px;
+    top: 105px;
+}
+
+#clockBox .n4 {
+    left: 177px;
+    top: 148px;
+}
+
+#clockBox .n5 {
+    left: 148px;
+    top: 178px;
+}
+
+#clockBox .n6 {
+    left: 105px;
+    top: 190px;
+}
+
+#clockBox .n7 {
+    left: 62px;
+    top: 178px;
+}
+
+#clockBox .n8 {
+    left: 32px;
+    top: 148px;
+}
+
+#clockBox .n9 {
+    left: 20px;
+    top: 105px;
+}
+
+#clockBox .n10 {
+    left: 32px;
+    top: 62px;
+}
+
+#clockBox .n11 {
+    left: 62px;
+    top: 32px;
+}
+
+/* =========================================================
+   PONTEIROS DO RELÓGIO INTERATIVO
+========================================================= */
+
+#interactiveHourHand,
+#interactiveMinuteHand {
+    position: absolute;
+
+    left: 50%;
+    bottom: 50%;
+
+    transform-origin: 50% 100%;
+
+    border-radius: 5px;
+
+    pointer-events: none;
+
+    z-index: 5;
+}
+
+#interactiveHourHand {
+    width: 8px;
+    height: 58px;
+
+    margin-left: -4px;
+
+    background: #ccc;
+
+    box-shadow:
+        0 0 3px #000;
+}
+
+#interactiveMinuteHand {
+    width: 4px;
+    height: 78px;
+
+    margin-left: -2px;
+
+    background: #b51a1a;
+
+    box-shadow:
+        0 0 5px rgba(150,0,0,.5);
+}
+
+.interactiveCenter {
+    position: absolute;
+
+    left: 50%;
+    top: 50%;
+
+    width: 13px;
+    height: 13px;
+
+    margin-left: -6.5px;
+    margin-top: -6.5px;
+
+    border-radius: 50%;
+
+    background: #777;
+
+    border: 2px solid #111;
+
+    z-index: 10;
+}
+
+/* =========================================================
+   HORÁRIO SELECIONADO
+========================================================= */
+
+#selectedTime {
+    color: #ddd;
+
+    font-size: 22px;
+    font-weight: bold;
+
+    letter-spacing: 3px;
+
+    margin-top: 5px;
+
+    text-shadow:
+        0 0 8px rgba(255,255,255,.1);
+}
+
+/* =========================================================
+   INSTRUÇÕES
+========================================================= */
+
+.clockInstructions {
+    margin-top: 12px;
+
+    color: #555;
+
+    font-size: 8px;
+
+    line-height: 1.7;
+
+    letter-spacing: 1px;
+}
+
+/* =========================================================
+   MENSAGEM DO RELÓGIO
+========================================================= */
+
+#clockMessage {
+    min-height: 20px;
+
+    margin-top: 10px;
+
+    color: #999;
+
+    font-size: 11px;
+
+    letter-spacing: 1px;
+}
+
+.clock-success {
+    color: #cfcfcf !important;
+}
+
+.clock-error {
+    color: #b51a1a !important;
+}
+
+/* =========================================================
+   BOTÃO CONFIRMAR
+========================================================= */
+
+#confirmTime {
+    margin-top: 12px;
+
+    padding: 11px 22px;
+
+    background:
+        linear-gradient(
+            180deg,
+            #741010,
+            #4b0909
+        );
+
+    color: #eee;
+
+    border: 1px solid #9a2020;
+
+    font-size: 10px;
+
+    font-weight: bold;
+
+    letter-spacing: 2px;
+
+    transition:
+        background .15s,
+        border-color .15s;
+}
+
+#confirmTime:hover {
+    background:
+        linear-gradient(
+            180deg,
+            #8e1515,
+            #5b0b0b
+        );
+
+    border-color: #c02020;
+}
+
+/* =========================================================
+   MENSAGEM DE SUCESSO
+========================================================= */
+
+#successMessage {
+    position: absolute;
+
+    inset: 0;
+
+    z-index: 3000;
+
+    display: none;
+
+    align-items: center;
+    justify-content: center;
+
+    background:
+        rgba(0,0,0,.88);
+}
+
+#successMessage.active {
+    display: flex;
+}
+
+.successBox {
+    width: 430px;
+    max-width: 90vw;
+
+    padding: 35px;
+
+    text-align: center;
+
+    background:
+        linear-gradient(
+            180deg,
+            #111,
+            #070707
+        );
+
+    border:
+        1px solid #4d1111;
+
+    box-shadow:
+        0 0 40px rgba(0,0,0,.9);
+}
+
+.successLine {
+    width: 100%;
+
+    height: 2px;
+
+    margin-bottom: 25px;
+
+    background: #6e1616;
+}
+
+.successIcon {
+    color: #aaa;
+
+    font-size: 40px;
+}
+
+.successSmall {
+    margin-top: 10px;
+
+    color: #555;
+
+    font-size: 9px;
+
+    letter-spacing: 3px;
+}
+
+.successBox h1 {
+    margin-top: 12px;
+
+    color: #ddd;
+
+    font-size: 22px;
+
+    letter-spacing: 3px;
+}
+
+.successBox p {
+    margin-top: 10px;
+
+    color: #888;
+
+    font-size: 10px;
+
+    letter-spacing: 2px;
+}
+
+/* =========================================================
+   MORTE
+========================================================= */
+
+#deathMessage {
+    position: absolute;
+
+    inset: 0;
+
+    z-index: 4000;
+
+    display: none;
+
+    align-items: center;
+    justify-content: center;
+
+    background:
+        rgba(0,0,0,.9);
+}
+
+#deathMessage.active {
+    display: flex;
+}
+
+.deathBox {
+    width: 430px;
+    max-width: 90vw;
+
+    padding: 35px;
+
+    text-align: center;
+
+    background:
+        linear-gradient(
+            180deg,
+            #120707,
+            #070303
+        );
+
+    border:
+        1px solid #651010;
+
+    box-shadow:
+        0 0 45px rgba(70,0,0,.4);
+}
+
+.deathIcon {
+    color: #a31313;
+
+    font-size: 45px;
+}
+
+.deathSmall {
+    margin-top: 10px;
+
+    color: #5c1616;
+
+    font-size: 9px;
+
+    letter-spacing: 3px;
+}
+
+.deathBox h1 {
+    margin-top: 12px;
+
+    color: #ddd;
+
+    font-size: 24px;
+
+    letter-spacing: 3px;
+}
+
+.redText {
+    margin-top: 10px;
+
+    color: #8e1717;
+
+    font-size: 10px;
+
+    letter-spacing: 1px;
+}
+
+#restartButton {
+    margin-top: 25px;
+
+    padding: 11px 22px;
+
+    background:
+        linear-gradient(
+            180deg,
+            #741010,
+            #470808
+        );
+
+    color: #eee;
+
+    border: 1px solid #8c1b1b;
+
+    font-size: 10px;
+
+    letter-spacing: 2px;
+}
+
+#restartButton:hover {
+    background:
+        linear-gradient(
+            180deg,
+            #921818,
+            #5a0a0a
+        );
+}
+
+/* =========================================================
+   FINAL DA FASE
+========================================================= */
+
+#finishMessage {
+    position: absolute;
+
+    inset: 0;
+
+    z-index: 3500;
+
+    display: none;
+
+    align-items: center;
+    justify-content: center;
+
+    background:
+        rgba(0,0,0,.88);
+}
+
+#finishMessage.active {
+    display: flex;
+}
+
+.finishBox {
+    width: 430px;
+    max-width: 90vw;
+
+    padding: 35px;
+
+    text-align: center;
+
+    background:
+        linear-gradient(
+            180deg,
+            #111,
+            #070707
+        );
+
+    border:
+        1px solid #4d1111;
+
+    box-shadow:
+        0 0 45px rgba(0,0,0,.9);
+}
+
+.finishIcon {
+    color: #aaa;
+
+    font-size: 40px;
+}
+
+.finishSmall {
+    margin-top: 10px;
+
+    color: #555;
+
+    font-size: 9px;
+
+    letter-spacing: 3px;
+}
+
+.finishBox h1 {
+    margin-top: 12px;
+
+    color: #ddd;
+
+    font-size: 22px;
+
+    letter-spacing: 3px;
+}
+
+.finishBox p {
+    margin-top: 10px;
+
+    color: #888;
+
+    font-size: 10px;
+
+    letter-spacing: 2px;
+}
+
+/* =========================================================
+   RESPONSIVIDADE
+========================================================= */
+
+@media (max-width: 800px) {
+
+    #hud {
+        padding: 0 15px;
+    }
+
+    .gameName {
+        font-size: 11px;
+        letter-spacing: 3px;
+    }
+
+    .phaseName {
+        font-size: 7px;
+        letter-spacing: 2px;
+    }
+
+    #controls {
+        gap: 15px;
+    }
+
+    .clockInstructions {
+        font-size: 7px;
+    }
+
+    #clockBox {
+        padding: 22px 20px 25px;
+    }
+}* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+html,
+body {
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+}
+
+body {
+    background: #030303;
+    color: #fff;
+    font-family: "Courier New", monospace;
+}
+
+
+/* =========================================================
+   JOGO
+========================================================= */
+
+#game {
+    position: relative;
+    width: 100vw;
+    height: 100vh;
+    overflow: hidden;
+    background: #050505;
+}
+
+
+/* =========================================================
+   HUD
+========================================================= */
+
+#hud {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+
+    height: 68px;
+
+    z-index: 1000;
+
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    padding: 0 35px;
+
+    background:
+        linear-gradient(
+            180deg,
+            #080808,
+            #050505
+        );
+
+    border-bottom: 1px solid #351010;
+
+    box-shadow:
+        0 5px 20px rgba(0, 0, 0, .8);
+}
+
+.hudLeft,
+.hudRight {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.hudLabel {
+    color: #555;
+    font-size: 10px;
+    letter-spacing: 2px;
+}
+
+.hudValue {
+    color: #ddd;
+    font-size: 22px;
+}
+
+.hudCenter {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    text-align: center;
+}
+
+.gameName {
+    color: #eee;
+    font-size: 14px;
+    font-weight: bold;
+    letter-spacing: 5px;
+}
+
+.phaseName {
+    margin-top: 3px;
+    color: #7d1717;
+    font-size: 9px;
+    letter-spacing: 4px;
+}
+
+.hearts {
+    color: #c51616;
+    font-size: 22px;
+
+    text-shadow:
+        0 0 8px rgba(255, 0, 0, .4);
+}
+
+
+/* =========================================================
+   ÁREA
+========================================================= */
+
+#gameArea {
+    position: absolute;
+
+    top: 68px;
+    bottom: 48px;
+    left: 0;
+    right: 0;
+
+    overflow: hidden;
+
+    background: #080808;
+}
+
+
+/* =========================================================
+   MUNDO
+========================================================= */
+
+#world {
+    position: absolute;
+
+    left: 0;
+    top: 0;
+
+    width: 2400px;
+    height: 100%;
+}
+
+
+/* =========================================================
+   FUNDO
+========================================================= */
+
+.background {
+    position: absolute;
+
+    width: 2400px;
+    height: 100%;
+
+    left: 0;
+    top: 0;
+
+    overflow: hidden;
+
+    background:
+        radial-gradient(
+            ellipse at 45% 35%,
+            #292020 0%,
+            #141212 28%,
+            #0a0909 65%,
+            #030303 100%
+        );
+}
+
+.backgroundGlow {
+    position: absolute;
+
+    width: 500px;
+    height: 500px;
+
+    border-radius: 50%;
+
+    filter: blur(80px);
+
+    opacity: .14;
+}
+
+.glow1 {
+    left: 350px;
+    top: 20px;
+    background: #b00000;
+}
+
+.glow2 {
+    left: 1550px;
+    top: 100px;
+    background: #720000;
+}
+
+
+/* =========================================================
+   TETO
+========================================================= */
+
+.ceiling {
+    position: absolute;
+
+    left: 0;
+    top: 0;
+
+    width: 2400px;
+    height: 35px;
+
+    background:
+        repeating-linear-gradient(
+            90deg,
+            #171717 0px,
+            #171717 95px,
+            #101010 95px,
+            #101010 100px
+        );
+
+    border-bottom: 2px solid #272727;
+}
+
+
+/* =========================================================
+   TUBULAÇÕES
+========================================================= */
+
+.pipe {
+    position: absolute;
+
+    height: 12px;
+
+    background:
+        linear-gradient(
+            180deg,
+            #444,
+            #171717,
+            #090909
+        );
+
+    border: 1px solid #555;
+
+    box-shadow:
+        0 4px 5px rgba(0,0,0,.6);
+}
+
+.pipe1 {
+    left: 80px;
+    top: 65px;
+    width: 620px;
+}
+
+.pipe2 {
+    left: 850px;
+    top: 105px;
+    width: 500px;
+}
+
+.pipe3 {
+    left: 1510px;
+    top: 70px;
+    width: 650px;
+}
+
+
+/* =========================================================
+   PAINÉIS
+========================================================= */
+
+.wallPanel {
+    position: absolute;
+
+    top: 150px;
+
+    width: 170px;
+    height: 120px;
+
+    background:
+        linear-gradient(
+            135deg,
+            #1b1b1b,
+            #0e0e0e
+        );
+
+    border: 1px solid #292929;
+
+    box-shadow:
+        inset 0 0 30px rgba(0,0,0,.7);
+}
+
+.panel1 {
+    left: 300px;
+}
+
+.panel2 {
+    left: 960px;
+}
+
+.panel3 {
+    left: 1700px;
+}
+
+
+/* =========================================================
+   TEXTOS
+========================================================= */
+
+.sectorText {
+    position: absolute;
+
+    left: 710px;
+    top: 150px;
+
+    color: #303030;
+
+    font-size: 38px;
+    font-weight: bold;
+
+    letter-spacing: 9px;
+}
+
+.labText {
+    position: absolute;
+
+    left: 715px;
+    top: 195px;
+
+    color: #242424;
+
+    font-size: 10px;
+
+    letter-spacing: 6px;
+}
+
+
+/* =========================================================
+   AVISO
+========================================================= */
+
+.warningSymbol {
+    position: absolute;
+
+    left: 160px;
+    top: 120px;
+
+    width: 55px;
+    height: 48px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    color: #8f1010;
+
+    font-size: 35px;
+    font-weight: bold;
+
+    border: 2px solid #541010;
+
+    opacity: .65;
+}
+
+
+/* =========================================================
+   RACHADURAS
+========================================================= */
+
+.wallCrack {
+    position: absolute;
+
+    width: 70px;
+    height: 2px;
+
+    background: #242424;
+
+    transform: rotate(-35deg);
+}
+
+.crack1 {
+    left: 520px;
+    top: 270px;
+}
+
+.crack2 {
+    left: 1360px;
+    top: 180px;
+    transform: rotate(25deg);
+}
+
+.crack3 {
+    left: 1840px;
+    top: 300px;
+    transform: rotate(-20deg);
+}
+
+
+/* =========================================================
+   CHÃO
+========================================================= */
+
+#ground {
+    position: absolute;
+
+    left: 0;
+    bottom: 0;
+
+    width: 2400px;
+    height: 100px;
+
+    background:
+        repeating-linear-gradient(
+            90deg,
+            #141414 0px,
+            #141414 78px,
+            #101010 79px,
+            #101010 80px
+        );
+
+    border-top: 3px solid #441313;
+
+    box-shadow:
+        inset 0 15px 30px rgba(0,0,0,.5);
+}
+
+.floorLine {
+    position: absolute;
+
+    left: 0;
+    top: 15px;
+
+    width: 2400px;
+    height: 1px;
+
+    background: #272727;
+}
+
+.floorTile {
+    position: absolute;
+
+    bottom: 0;
+
+    width: 1px;
+    height: 80px;
+
+    background: #242424;
+}
+
+.tile1 { left: 300px; }
+.tile2 { left: 700px; }
+.tile3 { left: 1100px; }
+.tile4 { left: 1500px; }
+.tile5 { left: 1900px; }
+.tile6 { left: 2200px; }
+
+
+/* =========================================================
+   PLATAFORMAS
+========================================================= */
+
+.platform,
+.clockPlatform {
+    position: absolute;
+
+    height: 20px;
+
+    background:
+        linear-gradient(
+            180deg,
+            #3c3c3c,
+            #181818
+        );
+
+    border: 1px solid #555;
+
+    border-bottom: 3px solid #4b1111;
+
+    box-shadow:
+        0 6px 12px rgba(0,0,0,.7);
+
+    z-index: 25;
+}
+
+.platform::before,
+.clockPlatform::before {
+    content: "";
+
+    position: absolute;
+
+    left: 12px;
+    right: 12px;
+    top: 5px;
+
+    height: 1px;
+
+    background: #696969;
+}
+
+.platform::after,
+.clockPlatform::after {
+    content: "";
+
+    position: absolute;
+
+    left: 18px;
+    right: 18px;
+    bottom: -9px;
+
+    height: 8px;
+
+    border-left: 2px solid #292929;
+    border-right: 2px solid #292929;
+}
+
+
+/* =========================================================
+   PARKOUR
+========================================================= */
+
+.platform1 {
+    left: 260px;
+    top: calc(100% - 155px);
+    width: 180px;
+}
+
+.platform2 {
+    left: 490px;
+    top: calc(100% - 215px);
+    width: 170px;
+}
+
+.platform3 {
+    left: 700px;
+    top: calc(100% - 275px);
+    width: 170px;
+}
+
+.platform4 {
+    left: 900px;
+    top: calc(100% - 335px);
+    width: 165px;
+}
+
+.platform5 {
+    left: 1090px;
+    top: calc(100% - 395px);
+    width: 155px;
+}
+
+.platform6 {
+    left: 1280px;
+    top: calc(100% - 335px);
+    width: 165px;
+}
+
+.platform7 {
+    left: 1490px;
+    top: calc(100% - 275px);
+    width: 180px;
+}
+
+
+/* =========================================================
+   PLATAFORMAS DO RELÓGIO
+========================================================= */
+
+.clockPlatform1 {
+    left: 1970px;
+    top: calc(100% - 430px);
+    width: 180px;
+}
+
+.clockPlatform2 {
+    left: 2180px;
+    top: calc(100% - 510px);
+    width: 180px;
+}
+
+
+/* =========================================================
+   RELÓGIO DO CENÁRIO
+========================================================= */
+
+#clock {
+    position: absolute;
+
+    left: 1080px;
+    top: 35px;
+
+    width: 145px;
+    height: 175px;
+
+    z-index: 40;
+}
+
+.clockOuter {
+    position: relative;
+
+    width: 145px;
+    height: 145px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+#clock .clockInner {
+    position: relative;
+
+    width: 120px;
+    height: 120px;
+
+    border-radius: 50%;
+
+    background:
+        radial-gradient(
+            circle,
+            #242424,
+            #080808 72%
+        );
+
+    border: 5px solid #3d3d3d;
+
+    box-shadow:
+        0 8px 20px rgba(0,0,0,.8),
+        inset 0 0 18px #000;
+}
+
+
+/* =========================================================
+   NÚMEROS DO RELÓGIO DO CENÁRIO
+========================================================= */
+
+#clock .clockNumber {
+    position: absolute;
+
+    color: #aaa;
+
+    font-size: 8px;
+    font-weight: bold;
+
+    transform: translate(-50%, -50%);
+
+    z-index: 2;
+}
+
+#clock .number12 {
+    left: 60px;
+    top: 10px;
+}
+
+#clock .number1 {
+    left: 85px;
+    top: 17px;
+}
+
+#clock .number2 {
+    left: 103px;
+    top: 35px;
+}
+
+#clock .number3 {
+    left: 110px;
+    top: 60px;
+}
+
+#clock .number4 {
+    left: 103px;
+    top: 85px;
+}
+
+#clock .number5 {
+    left: 85px;
+    top: 103px;
+}
+
+#clock .number6 {
+    left: 60px;
+    top: 110px;
+}
+
+#clock .number7 {
+    left: 35px;
+    top: 103px;
+}
+
+#clock .number8 {
+    left: 17px;
+    top: 85px;
+}
+
+#clock .number9 {
+    left: 10px;
+    top: 60px;
+}
+
+#clock .number10 {
+    left: 17px;
+    top: 35px;
+}
+
+#clock .number11 {
+    left: 35px;
+    top: 17px;
+}
+
+
+/* =========================================================
+   MARCAÇÕES DO RELÓGIO
+========================================================= */
+
+#clock .clockTick {
+    position: absolute;
+
+    left: 50%;
+    top: 50%;
+
+    width: 1px;
+    height: 4px;
+
+    background: #777;
+
+    transform-origin: 50% 0;
+
+    z-index: 2;
+}
+
+#clock .tick1 {
+    transform:
+        translate(-50%, -50%)
+        rotate(0deg)
+        translateY(-52px);
+}
+
+#clock .tick2 {
+    transform:
+        translate(-50%, -50%)
+        rotate(30deg)
+        translateY(-52px);
+}
+
+#clock .tick3 {
+    transform:
+        translate(-50%, -50%)
+        rotate(60deg)
+        translateY(-52px);
+}
+
+#clock .tick4 {
+    transform:
+        translate(-50%, -50%)
+        rotate(90deg)
+        translateY(-52px);
+}
+
+#clock .tick5 {
+    transform:
+        translate(-50%, -50%)
+        rotate(120deg)
+        translateY(-52px);
+}
+
+#clock .tick6 {
+    transform:
+        translate(-50%, -50%)
+        rotate(150deg)
+        translateY(-52px);
+}
+
+#clock .tick7 {
+    transform:
+        translate(-50%, -50%)
+        rotate(180deg)
+        translateY(-52px);
+}
+
+#clock .tick8 {
+    transform:
+        translate(-50%, -50%)
+        rotate(210deg)
+        translateY(-52px);
+}
+
+#clock .tick9 {
+    transform:
+        translate(-50%, -50%)
+        rotate(240deg)
+        translateY(-52px);
+}
+
+#clock .tick10 {
+    transform:
+        translate(-50%, -50%)
+        rotate(270deg)
+        translateY(-52px);
+}
+
+#clock .tick11 {
+    transform:
+        translate(-50%, -50%)
+        rotate(300deg)
+        translateY(-52px);
+}
+
+#clock .tick12 {
+    transform:
+        translate(-50%, -50%)
+        rotate(330deg)
+        translateY(-52px);
+}
+
+
+/* =========================================================
+   PONTEIROS DO RELÓGIO DO CENÁRIO
+========================================================= */
+
+#clock #hourHand,
+#clock #minuteHand {
+    position: absolute;
+
+    left: 50%;
+    bottom: 50%;
+
+    transform-origin: 50% 100%;
+
+    border-radius: 5px;
+
+    pointer-events: none;
+
+    z-index: 5;
+}
+
+#clock #hourHand {
+    width: 3px;
+    height: 27px;
+
+    margin-left: -1.5px;
+
+    background: #ccc;
+}
+
+#clock #minuteHand {
+    width: 2px;
+    height: 38px;
+
+    margin-left: -1px;
+
+    background: #b51a1a;
+}
+
+#clock .clockCenter {
+    position: absolute;
+
+    left: 50%;
+    top: 50%;
+
+    width: 7px;
+    height: 7px;
+
+    margin-left: -3.5px;
+    margin-top: -3.5px;
+
+    border-radius: 50%;
+
+    background: #777;
+
+    border: 1px solid #111;
+
+    z-index: 10;
+}
+
+.clockLabel {
+    position: absolute;
+
+    left: 0;
+    right: 0;
+
+    bottom: 0;
+
+    text-align: center;
+
+    color: #555;
+
+    font-size: 7px;
+
+    letter-spacing: 2px;
+}
+
+
+/* =========================================================
+   LUZES
+========================================================= */
+
+.floorLight {
+    position: absolute;
+
+    bottom: 100px;
+
+    width: 150px;
+    height: 40px;
+
+    border-radius: 50%;
+
+    filter: blur(18px);
+
+    opacity: .12;
+}
+
+.clockLight {
+    left: 1020px;
+    background: #b00000;
+}
+
+.monsterLight {
+    left: 1160px;
+    background: #b00000;
+}
+
+
+/* =========================================================
+   CAIXAS
+========================================================= */
+
+.crate {
+    position: absolute;
+
+    bottom: 100px;
+
+    width: 78px;
+    height: 78px;
+
+    background:
+        linear-gradient(
+            135deg,
+            #272727,
+            #111
+        );
+
+    border: 2px solid #444;
+
+    box-shadow:
+        6px 8px 0 rgba(0,0,0,.4);
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    color: #666;
+
+    font-size: 10px;
+    letter-spacing: 2px;
+
+    z-index: 15;
+}
+
+.crate::before,
+.crate::after {
+    content: "";
+
+    position: absolute;
+
+    background: #363636;
+}
+
+.crate::before {
+    width: 100%;
+    height: 2px;
+}
+
+.crate::after {
+    width: 2px;
+    height: 100%;
+}
+
+.crate1 {
+    left: 120px;
+}
+
+.crate2 {
+    left: 730px;
+}
+
+.crate3 {
+    left: 1430px;
+}
+
+
+/* =========================================================
+   MONSTRO
+========================================================= */
+
+#monster {
+    position: absolute;
+
+    left: 1220px;
+    bottom: 100px;
+
+    width: 65px;
+    height: 75px;
+
+    z-index: 80;
+}
+
+.monsterShadow {
+    position: absolute;
+
+    left: 2px;
+    bottom: -6px;
+
+    width: 65px;
+    height: 12px;
+
+    border-radius: 50%;
+
+    background: #000;
+
+    filter: blur(4px);
+}
+
+.monsterBody {
+    position: absolute;
+
+    left: 5px;
+    top: 5px;
+
+    width: 55px;
+    height: 65px;
+
+    background:
+        linear-gradient(
+            135deg,
+            #7d0000,
+            #330000
+        );
+
+    border: 3px solid #1b0000;
+
+    border-radius:
+        24px 24px 12px 12px;
+
+    box-shadow:
+        inset -8px -8px 15px rgba(0,0,0,.5),
+        0 0 12px rgba(130,0,0,.2);
+}
+
+.monsterEye {
+    position: absolute;
+
+    top: 17px;
+
+    width: 11px;
+    height: 15px;
+
+    background: #eee;
+
+    border-radius: 50%;
+
+    box-shadow:
+        0 0 8px rgba(255,255,255,.4);
+}
+
+.monsterEyeLeft {
+    left: 10px;
+}
+
+.monsterEyeRight {
+    right: 10px;
+}
+
+.monsterMouth {
+    position: absolute;
+
+    left: 11px;
+    bottom: 10px;
+
+    width: 29px;
+    height: 13px;
+
+    background: #080000;
+
+    border-radius:
+        0 0 12px 12px;
+
+    overflow: hidden;
+}
+
+.monsterMouth span {
+    display: inline-block;
+
+    width: 5px;
+    height: 8px;
+
+    margin-left: 2px;
+
+    background: #ddd;
+}
+
+.monsterArm {
+    position: absolute;
+
+    top: 28px;
+
+    width: 10px;
+    height: 42px;
+
+    background: #4c0000;
+
+    border: 2px solid #1b0000;
+
+    border-radius: 10px;
+}
+
+.armLeft {
+    left: -1px;
+    transform: rotate(15deg);
+}
+
+.armRight {
+    right: -1px;
+    transform: rotate(-15deg);
+}
+
+
+/* =========================================================
+   PORTA
+========================================================= */
+
+#door {
+    position: absolute;
+
+    left: 2100px;
+    bottom: 100px;
+
+    width: 125px;
+    height: 205px;
+
+    z-index: 50;
+}
+
+.doorFrame {
+    position: absolute;
+
+    inset: 0;
+
+    padding: 8px;
+
+    background:
+        linear-gradient(
+            135deg,
+            #343434,
+            #151515
+        );
+
+    border: 2px solid #4b4b4b;
+
+    box-shadow:
+        0 15px 30px rgba(0,0,0,.7);
+}
+
+.doorPanel {
+    position: relative;
+
+    width: 100%;
+    height: 100%;
+
+    background:
+        linear-gradient(
+            90deg,
+            #111,
+            #1c1c1c,
+            #111
+        );
+
+    border: 2px solid #292929;
+}
+
+.doorTopLight {
+    position: absolute;
+
+    top: -2px;
+    left: 15px;
+    right: 15px;
+
+    height: 5px;
+
+    background: #7e1010;
+
+    box-shadow:
+        0 0 10px rgba(255,0,0,.3);
+}
+
+.doorWarning {
+    position: absolute;
+
+    top: 35px;
+    left: 0;
+    right: 0;
+
+    text-align: center;
+
+    color: #711010;
+
+    font-size: 28px;
+}
+
+.doorText {
+    position: absolute;
+
+    top: 80px;
+    left: 0;
+    right: 0;
+
+    text-align: center;
+
+    color: #555;
+
+    font-size: 12px;
+
+    letter-spacing: 4px;
+
+    writing-mode: horizontal-tb;
+}
+
+#lock {
+    position: absolute;
+
+    bottom: 20px;
+    left: 0;
+    right: 0;
+
+    text-align: center;
+
+    font-size: 22px;
+
+    filter: grayscale(1);
+}
+
+#door.unlocked .doorTopLight {
+    background: #00d96b;
+
+    box-shadow:
+        0 0 15px rgba(0,255,100,.7);
+}
+
+#door.unlocked .doorPanel {
+    border-color: #155a38;
+}
+
+#door.unlocked .doorWarning {
+    color: #00a956;
+}
+
+#door.unlocked #lock {
+    display: none;
+}
+
+
+/* =========================================================
+   PLAYER
+========================================================= */
+
+#player {
+    position: absolute;
+
+    width: 38px;
+    height: 62px;
+
+    z-index: 100;
+}
+
+.playerShadow {
+    position: absolute;
+
+    left: 0;
+    bottom: -4px;
+
+    width: 38px;
+    height: 8px;
+
+    background: #000;
+
+    border-radius: 50%;
+
+    filter: blur(2px);
+}
+
+.playerHair {
+    position: absolute;
+
+    left: 7px;
+    top: -1px;
+
+    width: 25px;
+    height: 13px;
+
+    background: #171717;
+
+    border-radius:
+        12px 12px 4px 4px;
+
+    z-index: 3;
+}
+
+.head {
+    position: absolute;
+
+    left: 6px;
+    top: 3px;
+
+    width: 26px;
+    height: 26px;
+
+    background: #b8b8b8;
+
+    border: 2px solid #202020;
+
+    z-index: 2;
+}
+
+.playerEye {
+    position: absolute;
+
+    top: 10px;
+
+    width: 3px;
+    height: 3px;
+
+    background: #111;
+}
+
+.eyeLeft {
+    left: 6px;
+}
+
+.eyeRight {
+    right: 6px;
+}
+
+.body {
+    position: absolute;
+
+    left: 4px;
+    top: 27px;
+
+    width: 30px;
+    height: 25px;
+
+    background:
+        linear-gradient(
+            90deg,
+            #590000,
+            #9c1010,
+            #590000
+        );
+
+    border: 2px solid #210000;
+
+    z-index: 2;
+}
+
+.shirtDetail {
+    position: absolute;
+
+    left: 13px;
+    top: 4px;
+
+    width: 3px;
+    height: 15px;
+
+    background: #d0d0d0;
+
+    opacity: .35;
+}
+
+.leg {
+    position: absolute;
+
+    top: 49px;
+
+    width: 10px;
+    height: 14px;
+
+    background: #262626;
+
+    border: 2px solid #111;
+}
+
+.leg.left {
+    left: 7px;
+}
+
+.leg.right {
+    right: 7px;
+}
+
+
+/* =========================================================
+   INTERAÇÃO
+========================================================= */
+
+#interaction {
+    position: absolute;
+
+    left: 50%;
+    bottom: 28px;
+
+    transform: translateX(-50%);
+
+    z-index: 500;
+
+    display: none;
+
+    align-items: center;
+    gap: 10px;
+
+    padding: 9px 15px;
+
+    background: rgba(5,5,5,.92);
+
+    border: 1px solid #551010;
+
+    color: #aaa;
+
+    font-size: 11px;
+
+    letter-spacing: 1px;
+
+    box-shadow:
+        0 5px 20px rgba(0,0,0,.6);
+}
+
+.keyIcon {
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    width: 25px;
+    height: 25px;
+
+    background: #741010;
+
+    color: #fff;
+
+    font-weight: bold;
+
+    border: 1px solid #a02020;
+}
+
+
+/* =========================================================
+   CONTROLES
+========================================================= */
+
+#controls {
+    position: absolute;
+
+    left: 0;
+    right: 0;
+    bottom: 0;
+
+    height: 48px;
+
+    z-index: 1000;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    gap: 45px;
+
+    background: #060606;
+
+    border-top: 1px solid #1f1f1f;
+
+    color: #555;
+
+    font-size: 10px;
+
+    letter-spacing: 1px;
+}
+
+.controlKey {
+    display: inline-flex;
+
+    align-items: center;
+    justify-content: center;
+
+    min-width: 24px;
+    height: 22px;
+
+    margin-right: 4px;
+
+    padding: 0 5px;
+
+    color: #aaa;
+
+    background: #161616;
+
+    border: 1px solid #333;
+
+    font-size: 9px;
+}
+
+
+/* =========================================================
+   PAINEL DO RELÓGIO
+========================================================= */
+
+#clockOverlay {
+    position: absolute;
+
+    inset: 0;
+
+    z-index: 2000;
+
+    display: none;
+
+    align-items: center;
+    justify-content: center;
+
+    background:
+        rgba(0,0,0,.86);
+
+    backdrop-filter: blur(3px);
+}
+
+#clockOverlay.active {
+    display: flex;
+}
+
+#clockBox {
+    position: relative;
+
+    width: 560px;
+    max-width: 90vw;
+
+    padding: 35px 40px 40px;
+
+    background:
+        linear-gradient(
+            145deg,
+            #171717,
+            #0b0b0b
+        );
+
+    border: 1px solid #641414;
+
+    box-shadow:
+        0 0 0 1px #1c1c1c,
+        0 25px 70px rgba(0,0,0,.9),
+        0 0 40px rgba(130,0,0,.12);
+
+    text-align: center;
+}
+
+#closeClock {
+    position: absolute;
+
+    top: 10px;
+    right: 15px;
+
+    border: none;
+    background: none;
+
+    color: #555;
+
+    font-size: 28px;
+
+    cursor: pointer;
+}
+
+#closeClock:hover {
+    color: #ddd;
+}
+
+#clockBox .terminalHeader {
+    color: #4d9a68;
+
+    text-align: left;
+
+    font-size: 10px;
+
+    letter-spacing: 2px;
+}
+
+#clockBox .terminalHeader span {
+    color: #c21b1b;
+}
+
+#clockBox .terminalLine {
+    width: 100%;
+    height: 1px;
+
+    margin: 14px 0 22px;
+
+    background: #272727;
+}
+
+#clockBox .warningText {
+    color: #a71919;
+
+    font-size: 11px;
+
+    letter-spacing: 3px;
+
+    margin-bottom: 14px;
+}
+
+#clockBox h1 {
+    color: #eee;
+
+    font-size: 23px;
+
+    letter-spacing: 3px;
+
+    margin-bottom: 12px;
+}
+
+#clockBox .questionText {
+    color: #666;
+
+    font-size: 11px;
+
+    line-height: 18px;
+}
+
+
+/* =========================================================
+   RELÓGIO INTERATIVO DO PAINEL
+========================================================= */
+
+.interactiveClock {
+    display: flex;
+
+    justify-content: center;
+    align-items: center;
+
+    margin: 25px auto 12px;
+}
+
+#clockBox .interactiveClockFace {
+    position: relative;
+
+    width: 210px;
+    height: 210px;
+
+    border-radius: 50%;
+
+    background:
+        radial-gradient(
+            circle,
+            #242424,
+            #080808 72%
+        );
+
+    border: 7px solid #3d3d3d;
+
+    box-shadow:
+        0 10px 30px rgba(0,0,0,.8),
+        inset 0 0 25px #000;
+}
+
+
+/* =========================================================
+   NÚMEROS DO RELÓGIO INTERATIVO
+========================================================= */
+
+#clockBox .iNumber {
+    position: absolute;
+
+    color: #aaa;
+
+    font-size: 13px;
+    font-weight: bold;
+
+    transform: translate(-50%, -50%);
+
+    z-index: 2;
+}
+
+#clockBox .n12 { left: 105px; top: 20px; }
+#clockBox .n1  { left: 148px; top: 32px; }
+#clockBox .n2  { left: 178px; top: 62px; }
+#clockBox .n3  { left: 188px; top: 105px; }
+#clockBox .n4  { left: 177px; top: 148px; }
+#clockBox .n5  { left: 148px; top: 178px; }
+#clockBox .n6  { left: 105px; top: 190px; }
+#clockBox .n7  { left: 62px; top: 178px; }
+#clockBox .n8  { left: 32px; top: 148px; }
+#clockBox .n9  { left: 20px; top: 105px; }
+#clockBox .n10 { left: 32px; top: 62px; }
+#clockBox .n11 { left: 62px; top: 32px; }
+
+
+/* =========================================================
+   PONTEIROS INTERATIVOS
+========================================================= */
+
+#interactiveHourHand,
+#interactiveMinuteHand {
+    position: absolute;
+
+    left: 50%;
+    bottom: 50%;
+
+    transform-origin: 50% 100%;
+
+    border-radius: 5px;
+
+    pointer-events: none;
+
+    z-index: 5;
+}
+
+#interactiveHourHand {
+    width: 8px;
+    height: 58px;
+
+    margin-left: -4px;
+
+    background: #ccc;
+}
+
+#interactiveMinuteHand {
+    width: 4px;
+    height: 78px;
+
+    margin-left: -2px;
+
+    background: #b51a1a;
+}
+
+.interactiveCenter {
+    position: absolute;
+
+    left: 50%;
+    top: 50%;
+
+    width: 13px;
+    height: 13px;
+
+    margin-left: -6.5px;
+    margin-top: -6.5px;
+
+    border-radius: 50%;
+
+    background: #777;
+
+    border: 2px solid #111;
+
+    z-index: 10;
+}
+
+
+/* =========================================================
+   HORÁRIO
+========================================================= */
+
+#selectedTime {
+    color: #ddd;
+
+    font-size: 20px;
+
+    letter-spacing: 4px;
+
+    margin-top: 8px;
+}
+
+.clockInstructions {
+    color: #555;
+
+    font-size: 9px;
+
+    line-height: 16px;
+
+    margin-top: 10px;
+
+    letter-spacing: 1px;
+}
+
+#clockMessage {
+    min-height: 18px;
+
+    margin-top: 10px;
+
+    color: #a71919;
+
+    font-size: 10px;
+
+    letter-spacing: 1px;
+}
+
+
+/* =========================================================
+   BOTÃO
+========================================================= */
+
+#confirmTime {
+    display: block;
+
+    margin: 18px auto 0;
+
+    padding: 12px 30px;
+
+    background:
+        linear-gradient(
+            180deg,
+            #861313,
+            #570909
+        );
+
+    border: 1px solid #a51b1b;
+
+    color: #fff;
+
+    cursor: pointer;
+
+    font-family: inherit;
+
+    font-size: 11px;
+
+    letter-spacing: 2px;
+}
+
+#confirmTime:hover {
+    background: #9c1616;
+}
+
+
+/* =========================================================
+   RESULTADOS
+========================================================= */
+
+#successMessage,
+#deathMessage,
+#finishMessage {
+    position: absolute;
+
+    inset: 0;
+
+    z-index: 3000;
+
+    display: none;
+
+    align-items: center;
+    justify-content: center;
+
+    background:
+        rgba(0,0,0,.9);
+
+    backdrop-filter: blur(3px);
+}
+
+#successMessage.active,
+#deathMessage.active,
+#finishMessage.active {
+    display: flex;
+}
+
+.successBox,
+.deathBox,
+.finishBox {
+    position: relative;
+
+    width: 430px;
+    max-width: 90vw;
+
+    padding: 45px;
+
+    text-align: center;
+
+    background:
+        linear-gradient(
+            145deg,
+            #171717,
+            #090909
+        );
+
+    border: 1px solid #421010;
+
+    box-shadow:
+        0 25px 70px rgba(0,0,0,.9);
+}
+
+.successLine {
+    position: absolute;
+
+    left: 0;
+    right: 0;
+    top: 0;
+
+    height: 3px;
+
+    background: #00b95a;
+
+    box-shadow:
+        0 0 12px rgba(0,255,100,.3);
+}
+
+.successIcon,
+.deathIcon,
+.finishIcon {
+    margin-bottom: 18px;
+
+    font-size: 55px;
+}
+
+.successIcon {
+    color: #00c96a;
+}
+
+.deathIcon {
+    color: #a81717;
+}
+
+.finishIcon {
+    color: #c51b1b;
+}
+
+.successSmall,
+.deathSmall,
+.finishSmall {
+    color: #555;
+
+    font-size: 9px;
+
+    letter-spacing: 3px;
+
+    margin-bottom: 10px;
+}
+
+.successBox h1,
+.deathBox h1,
+.finishBox h1 {
+    color: #eee;
+
+    font-size: 24px;
+
+    letter-spacing: 3px;
+}
+
+.successBox p,
+.deathBox p,
+.finishBox p {
+    margin-top: 12px;
+
+    color: #666;
+
+    font-size: 11px;
+}
+
+.redText {
+    color: #9d1717 !important;
+
+    letter-spacing: 2px;
+}
+
+#restartButton {
+    margin-top: 25px;
+
+    padding: 12px 25px;
+
+    background:
+        linear-gradient(
+            180deg,
+            #861313,
+            #570909
+        );
+
+    border: 1px solid #a51b1b;
+
+    color: white;
+
+    cursor: pointer;
+
+    font-family: inherit;
+
+    font-size: 11px;
+
+    letter-spacing: 2px;
+}
+
+
+/* =========================================================
+   RESPONSIVO
+========================================================= */
+
+@media (max-width: 700px) {
+
+    #hud {
+        padding: 0 15px;
+    }
+
+    .gameName {
+        font-size: 11px;
+    }
+
+    .phaseName {
+        font-size: 7px;
+    }
+
+    #controls {
+        gap: 15px;
+        font-size: 8px;
+    }
+
+    #clockBox {
+        padding: 30px 20px;
+    }
+
+    #clockBox .interactiveClockFace {
+        width: 190px;
+        height: 190px;
+    }
+
+}

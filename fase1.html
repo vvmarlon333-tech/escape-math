@@ -1,0 +1,397 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Escape Math — Laboratório</title>
+
+    <link rel="stylesheet" href="fase1.css">
+</head>
+
+<body>
+
+<div id="game">
+
+    <!-- HUD -->
+    <div id="hud">
+
+        <div class="hudLeft">
+            <div class="hudLabel">ÁREA</div>
+            <div class="hudValue">01</div>
+        </div>
+
+        <div class="hudCenter">
+            <div class="gameName">ESCAPE MATH</div>
+            <div class="phaseName">LABORATÓRIO</div>
+        </div>
+
+        <div class="hudRight">
+            <div class="hudLabel">VIDA</div>
+            <div class="hearts">♥</div>
+        </div>
+
+    </div>
+
+
+    <!-- ÁREA DO JOGO -->
+    <div id="gameArea">
+
+        <div id="world">
+
+            <!-- FUNDO -->
+            <div class="background">
+
+                <div class="ceiling"></div>
+
+                <div class="backgroundGlow glow1"></div>
+                <div class="backgroundGlow glow2"></div>
+
+                <div class="pipe pipe1"></div>
+                <div class="pipe pipe2"></div>
+                <div class="pipe pipe3"></div>
+
+                <div class="wallPanel panel1"></div>
+                <div class="wallPanel panel2"></div>
+                <div class="wallPanel panel3"></div>
+
+                <div class="warningSymbol">!</div>
+
+                <div class="sectorText">
+                    SECTOR 01
+                </div>
+
+                <div class="labText">
+                    RESEARCH FACILITY
+                </div>
+
+                <div class="wallCrack crack1"></div>
+                <div class="wallCrack crack2"></div>
+                <div class="wallCrack crack3"></div>
+
+            </div>
+
+
+            <!-- CHÃO -->
+            <div id="ground">
+
+                <div class="floorLine"></div>
+
+                <div class="floorTile tile1"></div>
+                <div class="floorTile tile2"></div>
+                <div class="floorTile tile3"></div>
+                <div class="floorTile tile4"></div>
+                <div class="floorTile tile5"></div>
+                <div class="floorTile tile6"></div>
+
+            </div>
+
+
+            <!-- BURACO -->
+            <div id="hole">
+                <div class="holeGlow"></div>
+                <div class="holeDark"></div>
+            </div>
+
+
+            <!-- CAIXAS -->
+            <div class="crate crate1">
+                <span>FRAGILE</span>
+            </div>
+
+            <div class="crate crate2">
+                <span>01</span>
+            </div>
+
+
+            <!-- COMPUTADOR -->
+            <div id="computer">
+
+                <div class="computerTopLight"></div>
+
+                <div class="computerScreen">
+
+                    <div class="screenNoise"></div>
+
+                    <div class="screenText">
+                        SYSTEM<br>
+                        ERROR
+                    </div>
+
+                    <div class="screenCursor">
+                        _
+                    </div>
+
+                </div>
+
+                <div class="computerStand"></div>
+
+                <div class="computerBase"></div>
+
+                <div class="computerCable"></div>
+
+            </div>
+
+
+            <!-- LUZ NO CHÃO -->
+            <div class="floorLight computerLight"></div>
+
+
+            <!-- MONSTRO -->
+            <div id="monster">
+
+                <div class="monsterShadow"></div>
+
+                <div class="monsterBody">
+
+                    <div class="monsterEye monsterEyeLeft"></div>
+                    <div class="monsterEye monsterEyeRight"></div>
+
+                    <div class="monsterMouth">
+                        <span></span>
+                        <span></span>
+                        <span></span>
+                    </div>
+
+                </div>
+
+                <div class="monsterArm armLeft"></div>
+                <div class="monsterArm armRight"></div>
+
+            </div>
+
+
+            <!-- LUZ DO MONSTRO -->
+            <div class="floorLight monsterLight"></div>
+
+
+            <!-- PORTA -->
+            <div id="door">
+
+                <div class="doorFrame">
+
+                    <div class="doorTopLight"></div>
+
+                    <div class="doorPanel">
+
+                        <div class="doorWarning">
+                            ⚠
+                        </div>
+
+                        <div class="doorText">
+                            EXIT
+                        </div>
+
+                        <div id="lock">
+                            🔒
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- PLAYER -->
+            <div id="player">
+
+                <div class="playerShadow"></div>
+
+                <div class="playerHair"></div>
+
+                <div class="head">
+
+                    <div class="playerEye eyeLeft"></div>
+                    <div class="playerEye eyeRight"></div>
+
+                </div>
+
+                <div class="body">
+                    <div class="shirtDetail"></div>
+                </div>
+
+                <div class="leg left"></div>
+                <div class="leg right"></div>
+
+            </div>
+
+        </div>
+
+
+        <!-- INTERAÇÃO -->
+        <div id="interaction">
+            <span class="keyIcon">E</span>
+            <span>INTERAGIR</span>
+        </div>
+
+    </div>
+
+
+    <!-- CONTROLES -->
+    <div id="controls">
+
+        <div>
+            <span class="controlKey">A</span>
+            <span class="controlKey">D</span>
+            MOVER
+        </div>
+
+        <div>
+            <span class="controlKey">SPACE</span>
+            PULAR
+        </div>
+
+        <div>
+            <span class="controlKey">E</span>
+            INTERAGIR
+        </div>
+
+    </div>
+
+
+    <!-- PAINEL MATEMÁTICO -->
+    <div id="mathOverlay">
+
+        <div id="mathBox">
+
+            <button id="closeMath">×</button>
+
+            <div class="terminalHeader">
+                <span>●</span>
+                TERMINAL // LAB-01
+            </div>
+
+            <div class="terminalLine"></div>
+
+            <div class="warningText">
+                SYSTEM LOCKED
+            </div>
+
+            <h1>SEQUÊNCIA NUMÉRICA</h1>
+
+            <p class="questionText">
+                O sistema de segurança exige a continuação da sequência.
+            </p>
+
+            <div class="sequence">
+                <span>2</span>
+                <b>→</b>
+                <span>4</span>
+                <b>→</b>
+                <span>8</span>
+                <b>→</b>
+                <span>16</span>
+                <b>→</b>
+                <strong>?</strong>
+            </div>
+
+            <div class="inputLabel">
+                PRÓXIMO VALOR
+            </div>
+
+            <input
+                id="answer"
+                type="number"
+                placeholder="000"
+            >
+
+            <button id="confirmAnswer">
+                CONFIRMAR
+            </button>
+
+            <div id="answerMessage"></div>
+
+        </div>
+
+    </div>
+
+
+    <!-- SUCESSO -->
+    <div id="successMessage">
+
+        <div class="successBox">
+
+            <div class="successLine"></div>
+
+            <div class="successIcon">
+                ✓
+            </div>
+
+            <div class="successSmall">
+                SECURITY SYSTEM
+            </div>
+
+            <h1>ACESSO LIBERADO</h1>
+
+            <p>
+                O bloqueio eletrônico foi desativado.
+            </p>
+
+            <p class="redText">
+                ENCONTRE A SAÍDA.
+            </p>
+
+        </div>
+
+    </div>
+
+
+    <!-- MORTE -->
+    <div id="deathMessage">
+
+        <div class="deathBox">
+
+            <div class="deathIcon">
+                ☠
+            </div>
+
+            <div class="deathSmall">
+                CONNECTION LOST
+            </div>
+
+            <h1>VOCÊ MORREU</h1>
+
+            <p>
+                O laboratório não perdoa erros.
+            </p>
+
+            <button id="restartButton">
+                TENTAR NOVAMENTE
+            </button>
+
+        </div>
+
+    </div>
+
+
+    <!-- FIM DA FASE -->
+    <div id="finishMessage">
+
+        <div class="finishBox">
+
+            <div class="finishIcon">
+                →
+            </div>
+
+            <div class="finishSmall">
+                SECTOR 01 CLEARED
+            </div>
+
+            <h1>FASE CONCLUÍDA</h1>
+
+            <p>
+                Acesso ao próximo setor autorizado.
+            </p>
+
+        </div>
+
+    </div>
+
+</div>
+
+<script src="fase1.js"></script>
+
+</body>
+</html>

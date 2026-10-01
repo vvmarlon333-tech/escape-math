@@ -1,0 +1,599 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Escape Math — Fase 04</title>
+
+    <link rel="stylesheet" href="fase4.css">
+</head>
+
+<body>
+
+<div id="game">
+
+    <!-- =====================================================
+         HUD
+    ====================================================== -->
+
+    <header id="hud">
+
+        <div class="hudLeft">
+
+            <span class="hudLabel">
+                TEMPO
+            </span>
+
+            <span
+                class="hudValue"
+                id="timer"
+            >
+                60
+            </span>
+
+        </div>
+
+
+        <div class="hudCenter">
+
+            <div class="gameName">
+                ESCAPE MATH
+            </div>
+
+            <div class="phaseName">
+                FASE 04 — SISTEMA MATEMÁTICO
+            </div>
+
+        </div>
+
+
+        <div class="hudRight">
+
+            <span class="hudLabel">
+                SISTEMAS
+            </span>
+
+            <span
+                class="hudValue"
+                id="systemsCount"
+            >
+                0/4
+            </span>
+
+            <span class="hearts">
+                ♥
+            </span>
+
+        </div>
+
+    </header>
+
+
+    <!-- =====================================================
+         ÁREA DO JOGO
+    ====================================================== -->
+
+    <main id="gameArea">
+
+        <div id="world">
+
+            <!-- FUNDO -->
+
+            <div class="background">
+
+                <div class="backgroundGlow glow1"></div>
+                <div class="backgroundGlow glow2"></div>
+
+            </div>
+
+
+            <!-- TETO -->
+
+            <div class="ceiling"></div>
+
+
+            <!-- TUBULAÇÕES -->
+
+            <div class="pipe pipe1"></div>
+            <div class="pipe pipe2"></div>
+            <div class="pipe pipe3"></div>
+
+
+            <!-- PAINÉIS -->
+
+            <div class="wallPanel panel1"></div>
+            <div class="wallPanel panel2"></div>
+            <div class="wallPanel panel3"></div>
+
+
+            <!-- TEXTOS -->
+
+            <div class="sectorText">
+                SECTOR 04
+            </div>
+
+            <div class="labText">
+                MATHEMATICAL CONTROL SYSTEM
+            </div>
+
+
+            <!-- AVISO -->
+
+            <div class="warningSymbol">
+                !
+            </div>
+
+
+            <!-- RACHADURAS -->
+
+            <div class="wallCrack crack1"></div>
+            <div class="wallCrack crack2"></div>
+            <div class="wallCrack crack3"></div>
+
+
+            <!-- =================================================
+                 PLATAFORMAS
+            ================================================== -->
+
+            <div class="platform platform1"></div>
+            <div class="platform platform2"></div>
+            <div class="platform platform3"></div>
+            <div class="platform platform4"></div>
+            <div class="platform platform5"></div>
+            <div class="platform platform6"></div>
+            <div class="platform platform7"></div>
+
+
+            <!-- =================================================
+                 SISTEMA 01
+            ================================================== -->
+
+            <div
+                class="mathStation station1"
+                data-station="numbers"
+            >
+
+                <div class="stationTop"></div>
+
+                <div class="stationBody">
+
+                    <div class="stationHeader">
+                        SYSTEM 01
+                    </div>
+
+                    <div class="stationScreen">
+                        <span>01</span>
+                    </div>
+
+                    <div class="stationQuestion">
+                        SEQUÊNCIA
+                    </div>
+
+                    <div class="stationLabel">
+                        NÚMEROS
+                    </div>
+
+                    <div class="stationStatus">
+                        LOCKED
+                    </div>
+
+                </div>
+
+                <div class="stationBase"></div>
+
+            </div>
+
+
+            <!-- =================================================
+                 SISTEMA 02
+            ================================================== -->
+
+            <div
+                class="mathStation station2"
+                data-station="geometry"
+            >
+
+                <div class="stationTop"></div>
+
+                <div class="stationBody">
+
+                    <div class="stationHeader">
+                        SYSTEM 02
+                    </div>
+
+                    <div class="stationScreen">
+                        <span>02</span>
+                    </div>
+
+                    <div class="stationQuestion">
+                        ÁREA
+                    </div>
+
+                    <div class="stationLabel">
+                        GEOMETRIA
+                    </div>
+
+                    <div class="stationStatus">
+                        LOCKED
+                    </div>
+
+                </div>
+
+                <div class="stationBase"></div>
+
+            </div>
+
+
+            <!-- =================================================
+                 SISTEMA 03
+            ================================================== -->
+
+            <div
+                class="mathStation station3"
+                data-station="balance"
+            >
+
+                <div class="stationTop"></div>
+
+                <div class="stationBody">
+
+                    <div class="stationHeader">
+                        SYSTEM 03
+                    </div>
+
+                    <div class="stationScreen">
+                        <span>03</span>
+                    </div>
+
+                    <div class="stationQuestion">
+                        EQUILÍBRIO
+                    </div>
+
+                    <div class="stationLabel">
+                        EQUAÇÃO
+                    </div>
+
+                    <div class="stationStatus">
+                        LOCKED
+                    </div>
+
+                </div>
+
+                <div class="stationBase"></div>
+
+            </div>
+
+
+            <!-- =================================================
+                 SISTEMA 04
+            ================================================== -->
+
+            <div
+                class="mathStation station4"
+                data-station="sequence"
+            >
+
+                <div class="stationTop"></div>
+
+                <div class="stationBody">
+
+                    <div class="stationHeader">
+                        SYSTEM 04
+                    </div>
+
+                    <div class="stationScreen">
+                        <span>04</span>
+                    </div>
+
+                    <div class="stationQuestion">
+                        REGRA
+                    </div>
+
+                    <div class="stationLabel">
+                        SEQUÊNCIA
+                    </div>
+
+                    <div class="stationStatus">
+                        LOCKED
+                    </div>
+
+                </div>
+
+                <div class="stationBase"></div>
+
+            </div>
+
+
+            <!-- =================================================
+                 CAIXAS
+            ================================================== -->
+
+            <div class="crate crate1">
+                CARGO
+            </div>
+
+            <div class="crate crate2">
+                CARGO
+            </div>
+
+            <div class="crate crate3">
+                CARGO
+            </div>
+
+
+            <!-- LUZES -->
+
+            <div class="floorLight computerLight"></div>
+            <div class="floorLight monsterLight"></div>
+
+
+            <!-- =================================================
+                 MONSTRO
+            ================================================== -->
+
+            <div id="monster">
+
+                <div class="monsterShadow"></div>
+
+                <div class="monsterArm armLeft"></div>
+                <div class="monsterArm armRight"></div>
+
+                <div class="monsterBody">
+
+                    <div class="monsterEye monsterEyeLeft"></div>
+                    <div class="monsterEye monsterEyeRight"></div>
+
+                    <div class="monsterMouth">
+
+                        <span></span>
+                        <span></span>
+                        <span></span>
+                        <span></span>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- =================================================
+                 PORTA
+            ================================================== -->
+
+            <div id="door">
+
+                <div class="doorFrame">
+
+                    <div class="doorPanel">
+
+                        <div class="doorTopLight"></div>
+
+                        <div class="doorWarning">
+                            ⚠
+                        </div>
+
+                        <div class="doorText">
+                            EXIT
+                        </div>
+
+                        <div id="lock">
+                            🔒
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- =================================================
+                 PERSONAGEM
+            ================================================== -->
+
+            <div id="player"></div>
+
+
+            <!-- =================================================
+                 CHÃO
+            ================================================== -->
+
+            <div id="ground">
+
+                <div class="floorLine"></div>
+
+                <div class="floorTile tile1"></div>
+                <div class="floorTile tile2"></div>
+                <div class="floorTile tile3"></div>
+                <div class="floorTile tile4"></div>
+                <div class="floorTile tile5"></div>
+                <div class="floorTile tile6"></div>
+
+            </div>
+
+        </div>
+
+
+        <!-- =====================================================
+             INTERAÇÃO
+        ====================================================== -->
+
+        <div id="interaction">
+
+            <span class="keyIcon">
+                E
+            </span>
+
+            <span id="interactionText">
+                INTERAGIR
+            </span>
+
+        </div>
+
+    </main>
+
+
+    <!-- =====================================================
+         CONTROLES
+    ====================================================== -->
+
+    <footer id="controls">
+
+        <span>
+            <b>A / D</b>
+            MOVER
+        </span>
+
+        <span>
+            <b>SPACE</b>
+            PULAR
+        </span>
+
+        <span>
+            <b>E</b>
+            INTERAGIR
+        </span>
+
+        <span>
+            <b>ESC</b>
+            FECHAR
+        </span>
+
+    </footer>
+
+
+    <!-- =====================================================
+         PAINEL MATEMÁTICO
+    ====================================================== -->
+
+    <div id="mathOverlay">
+
+        <div id="mathBox">
+
+            <button id="closeMath">
+                ×
+            </button>
+
+            <div class="terminalHeader">
+
+                <span>
+                    [SYSTEM]
+                </span>
+
+                MATHEMATICAL CONTROL INTERFACE
+
+            </div>
+
+            <div class="terminalLine"></div>
+
+            <div class="systemProgress">
+
+                SISTEMA
+                <span id="miniSystemNumber">
+                    01
+                </span>
+
+            </div>
+
+            <h1 id="mathTitle">
+                SISTEMA
+            </h1>
+
+            <p id="mathDescription"></p>
+
+            <div id="miniGame"></div>
+
+            <div id="mathMessage"></div>
+
+        </div>
+
+    </div>
+
+
+    <!-- =====================================================
+         MORTE
+    ====================================================== -->
+
+    <div
+        id="deathMessage"
+        class="resultOverlay"
+    >
+
+        <div class="resultBox">
+
+            <div class="resultLine"></div>
+
+            <div class="resultIcon deathIcon">
+                ✕
+            </div>
+
+            <div class="resultSmall">
+                SYSTEM FAILURE
+            </div>
+
+            <h1>
+                VOCÊ FOI PEGO
+            </h1>
+
+            <p id="deathText">
+                O monstro alcançou você.
+            </p>
+
+            <button id="restartDeath">
+                VOLTAR À FASE 1
+            </button>
+
+        </div>
+
+    </div>
+
+
+    <!-- =====================================================
+         FINAL
+    ====================================================== -->
+
+    <div
+        id="finishMessage"
+        class="resultOverlay"
+    >
+
+        <div class="resultBox finishBox">
+
+            <div class="resultLine"></div>
+
+            <div class="resultIcon finishIcon">
+                ✓
+            </div>
+
+            <div class="resultSmall">
+                SYSTEM COMPLETE
+            </div>
+
+            <h1>
+                VOCÊ ESCAPOU
+            </h1>
+
+            <p>
+                Os quatro sistemas matemáticos
+                foram restaurados e a porta
+                foi desbloqueada.
+            </p>
+
+            <button id="restartFinish">
+                JOGAR NOVAMENTE
+            </button>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<script src="fase4.js"></script>
+
+</body>
+</html>

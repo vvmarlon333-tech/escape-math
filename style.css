@@ -1,0 +1,1781 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html,
+body {
+    width: 100%;
+    height: 100%;
+}
+
+body {
+    background:
+        radial-gradient(
+            circle at center,
+            #190000 0%,
+            #070707 45%,
+            #000000 100%
+        );
+
+    color: #ddd;
+
+    font-family:
+        "Courier New",
+        monospace;
+
+    overflow: hidden;
+}
+
+.hidden {
+    display: none !important;
+}
+
+
+/* =========================================
+   TELA
+========================================= */
+
+.screen {
+    position: absolute;
+
+    left: 50%;
+    top: 50%;
+
+    transform: translate(-50%, -50%);
+
+    width: min(1100px, 92vw);
+    height: min(700px, 90vh);
+
+    background:
+        linear-gradient(
+            rgba(10, 0, 0, .96),
+            rgba(3, 3, 3, .99)
+        );
+
+    border: 2px solid #480000;
+
+    box-shadow:
+        0 0 0 6px #080808,
+        0 0 60px rgba(150, 0, 0, .25);
+
+    overflow: hidden;
+}
+
+
+/* =========================================
+   MENU PRINCIPAL
+========================================= */
+
+#mainMenu {
+    display: flex;
+
+    flex-direction: column;
+
+    justify-content: center;
+
+    align-items: center;
+
+    text-align: center;
+}
+
+.title {
+    text-align: center;
+}
+
+.warning {
+    color: #700000;
+
+    font-size: 12px;
+
+    letter-spacing: 5px;
+
+    margin-bottom: 25px;
+
+    animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+
+    0%,
+    100% {
+        opacity: .45;
+    }
+
+    50% {
+        opacity: 1;
+    }
+}
+
+.title h1 {
+    font-size:
+        clamp(65px, 9vw, 120px);
+
+    line-height: .78;
+
+    letter-spacing: 12px;
+
+    color: #ddd;
+
+    text-shadow:
+        5px 5px 0 #260000,
+        0 0 30px rgba(255, 0, 0, .15);
+}
+
+.title h1 span {
+    color: #900000;
+}
+
+.title p {
+    margin-top: 30px;
+
+    color: #666;
+
+    font-size: 13px;
+
+    letter-spacing: 6px;
+}
+
+
+/* =========================================
+   BOTÕES
+========================================= */
+
+.buttons {
+    display: flex;
+
+    flex-direction: column;
+
+    gap: 14px;
+
+    width: 300px;
+
+    margin-top: 60px;
+}
+
+.buttons button {
+    height: 52px;
+
+    background: #090909;
+
+    border: 1px solid #450000;
+
+    color: #999;
+
+    font-family:
+        "Courier New",
+        monospace;
+
+    font-size: 13px;
+
+    letter-spacing: 3px;
+
+    cursor: pointer;
+
+    transition: .2s;
+}
+
+.buttons button:hover {
+    background: #190000;
+
+    border-color: #a00000;
+
+    color: white;
+
+    transform: translateX(4px);
+
+    box-shadow:
+        0 0 20px rgba(150, 0, 0, .25);
+}
+
+.buttons button:active {
+    transform:
+        translateX(4px)
+        scale(.98);
+}
+
+.version {
+    position: absolute;
+
+    bottom: 18px;
+
+    color: #333;
+
+    font-size: 9px;
+
+    letter-spacing: 2px;
+}
+
+
+/* =========================================
+   SELEÇÃO DE PERSONAGEM
+========================================= */
+
+#characterScreen {
+    display: flex;
+
+    flex-direction: column;
+
+    align-items: center;
+
+    justify-content: flex-start;
+
+    padding: 30px 40px;
+
+    overflow-y: auto;
+}
+
+.characterTitle {
+    text-align: center;
+}
+
+.characterTitle h2 {
+    font-size: 27px;
+
+    letter-spacing: 6px;
+
+    color: #ddd;
+}
+
+.characterTitle p {
+    margin-top: 12px;
+
+    color: #555;
+
+    font-size: 10px;
+
+    letter-spacing: 3px;
+}
+
+
+/* =========================================
+   GRID
+========================================= */
+
+.characters {
+    width: 900px;
+
+    max-width: 100%;
+
+    display: grid;
+
+    grid-template-columns:
+        repeat(4, 1fr);
+
+    gap: 12px;
+
+    margin-top: 25px;
+}
+
+
+/* =========================================
+   CARD
+========================================= */
+
+.character {
+    height: 165px;
+
+    background: #080808;
+
+    border: 1px solid #292929;
+
+    cursor: pointer;
+
+    display: flex;
+
+    flex-direction: column;
+
+    align-items: center;
+
+    justify-content: center;
+
+    transition: .2s;
+}
+
+.character:hover {
+    background: #140000;
+
+    border-color: #700000;
+
+    transform: translateY(-4px);
+}
+
+.character.selected {
+    background: #160000;
+
+    border: 2px solid #a00000;
+
+    box-shadow:
+        0 0 25px rgba(160, 0, 0, .2);
+}
+
+
+/* =========================================
+   ÁREA DO PERSONAGEM
+========================================= */
+
+.characterImage {
+    position: relative;
+
+    width: 90px;
+    height: 110px;
+
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    background:
+        linear-gradient(
+            135deg,
+            #222,
+            #080808
+        );
+
+    border: 1px solid #333;
+
+    margin-bottom: 12px;
+
+    overflow: hidden;
+}
+
+.character.selected .characterImage {
+    border-color: #800000;
+
+    box-shadow:
+        0 0 20px rgba(150, 0, 0, .2);
+}
+
+
+/* =========================================
+   PERSONAGEM BASE
+========================================= */
+
+.pixelCharacter {
+    position: absolute;
+
+    left: 50%;
+    top: 4px;
+
+    width: 58px;
+    height: 101px;
+
+    transform: translateX(-50%);
+
+    image-rendering: pixelated;
+}
+
+
+/* =========================================
+   CABELO TRASEIRO — BASE
+========================================= */
+
+.hairBack {
+    position: absolute;
+
+    left: 13px;
+    top: 8px;
+
+    width: 32px;
+    height: 55px;
+
+    background: #171313;
+
+    z-index: 1;
+}
+
+
+/* =========================================
+   CABEÇA
+========================================= */
+
+.head {
+    position: absolute;
+
+    left: 50%;
+    top: 15px;
+
+    width: 27px;
+    height: 29px;
+
+    transform: translateX(-50%);
+
+    background: #d3a080;
+
+    border: 2px solid #111;
+
+    z-index: 5;
+}
+
+
+/* =========================================
+   CABELO FRONTAL
+========================================= */
+
+.hairFront {
+    position: absolute;
+
+    left: -2px;
+    top: -4px;
+
+    width: 27px;
+    height: 11px;
+
+    background: #171313;
+
+    z-index: 6;
+}
+
+
+/* =========================================
+   ROSTO
+========================================= */
+
+.eye {
+    position: absolute;
+
+    top: 10px;
+
+    width: 4px;
+    height: 4px;
+
+    background: #111;
+
+    z-index: 8;
+}
+
+.eyeLeft {
+    left: 5px;
+}
+
+.eyeRight {
+    right: 5px;
+}
+
+.eye::after {
+    content: "";
+
+    position: absolute;
+
+    width: 1px;
+    height: 1px;
+
+    left: 0;
+    top: 0;
+
+    background: #ddd;
+}
+
+.nose {
+    position: absolute;
+
+    left: 11px;
+    top: 15px;
+
+    width: 3px;
+    height: 4px;
+
+    background: #a86f59;
+
+    z-index: 8;
+}
+
+.mouth {
+    position: absolute;
+
+    left: 9px;
+    top: 21px;
+
+    width: 8px;
+    height: 2px;
+
+    background: #703d3d;
+
+    z-index: 8;
+}
+
+
+/* =========================================
+   CORPO
+========================================= */
+
+.body {
+    position: absolute;
+
+    left: 50%;
+    top: 45px;
+
+    width: 40px;
+    height: 55px;
+
+    transform: translateX(-50%);
+
+    z-index: 2;
+}
+
+.neck {
+    position: absolute;
+
+    left: 16px;
+    top: -4px;
+
+    width: 9px;
+    height: 8px;
+
+    background: #c38d72;
+
+    border-left: 2px solid #5d3c32;
+    border-right: 2px solid #5d3c32;
+
+    z-index: 3;
+}
+
+
+/* =========================================
+   BRAÇOS
+========================================= */
+
+.arm {
+    position: absolute;
+
+    top: 4px;
+
+    width: 7px;
+    height: 25px;
+
+    background: #b97f67;
+
+    border: 2px solid #151515;
+
+    z-index: 1;
+}
+
+.armLeft {
+    left: 0;
+}
+
+.armRight {
+    right: 0;
+}
+
+
+/* =========================================
+   MÃOS
+========================================= */
+
+.hand {
+    position: absolute;
+
+    top: 26px;
+
+    width: 7px;
+    height: 7px;
+
+    background: #c48c71;
+
+    border: 1px solid #151515;
+
+    z-index: 3;
+}
+
+.handLeft {
+    left: 0;
+}
+
+.handRight {
+    right: 0;
+}
+
+
+/* =========================================
+   CAMISA
+========================================= */
+
+.shirt {
+    position: absolute;
+
+    left: 5px;
+    top: 2px;
+
+    width: 30px;
+    height: 27px;
+
+    background: #555;
+
+    border: 2px solid #111;
+
+    z-index: 2;
+}
+
+
+/* =========================================
+   PERNAS
+========================================= */
+
+.leg {
+    position: absolute;
+
+    top: 28px;
+
+    width: 11px;
+    height: 29px;
+
+    background: #292929;
+
+    border: 2px solid #101010;
+
+    z-index: 3;
+}
+
+.legLeft {
+    left: 7px;
+}
+
+.legRight {
+    right: 7px;
+}
+
+
+/* =========================================
+   SAPATOS
+========================================= */
+
+.shoe {
+    position: absolute;
+
+    top: 53px;
+
+    width: 14px;
+    height: 7px;
+
+    background: #0b0b0b;
+
+    border: 1px solid #050505;
+
+    z-index: 5;
+}
+
+.shoeLeft {
+    left: 5px;
+}
+
+.shoeRight {
+    right: 5px;
+}
+
+
+/* =========================================
+   LIVIASIX
+   LOIRA + CABELO LONGO
+========================================= */
+
+.livia .hairBack {
+    left: 10px;
+    top: 7px;
+
+    width: 38px;
+    height: 72px;
+
+    background: #d8ae3d;
+
+    box-shadow:
+        -3px 10px 0 #c99e2e,
+        3px 25px 0 #c99e2e,
+        -2px 44px 0 #b88e25;
+}
+
+.livia .hairFront {
+    display: block;
+
+    background: #d8ae3d;
+
+    box-shadow:
+        4px 3px 0 #c99e2e,
+        10px 1px 0 #c99e2e,
+        16px 3px 0 #c99e2e;
+}
+
+.livia .head,
+.livia .arm,
+.livia .hand {
+    background: #e2b18d;
+}
+
+.livia .shirt {
+    background: #d95787;
+
+    height: 25px;
+}
+
+.livia .shirt::before {
+    content: "";
+
+    position: absolute;
+
+    left: 5px;
+    top: 4px;
+
+    width: 15px;
+    height: 3px;
+
+    background: #ef83a9;
+}
+
+
+/* SHORTS DA LIVIA */
+
+.livia .short {
+    position: absolute;
+
+    left: 5px;
+    top: 24px;
+
+    width: 30px;
+    height: 16px;
+
+    background: #344c73;
+
+    border: 2px solid #151b28;
+
+    z-index: 4;
+}
+
+.livia .short::after {
+    content: "";
+
+    position: absolute;
+
+    left: 13px;
+    top: 0;
+
+    width: 2px;
+    height: 13px;
+
+    background: #1d2b45;
+}
+
+.livia .leg {
+    top: 38px;
+
+    height: 19px;
+
+    background: #e2b18d;
+
+    border-color: #111;
+}
+
+.livia .legLeft {
+    left: 8px;
+}
+
+.livia .legRight {
+    right: 8px;
+}
+
+.livia .shoe {
+    background: #eeeeee;
+}
+
+
+/* =========================================
+   LARASEVEN
+   CABELO RUIVO, CURTO E CHEIO
+========================================= */
+
+.lara .hairBack {
+    left: 7px;
+    top: 7px;
+
+    width: 44px;
+    height: 43px;
+
+    background: #913c24;
+
+    box-shadow:
+        -5px 5px 0 #74301d,
+        5px 5px 0 #74301d,
+        -6px 14px 0 #6b2a1a,
+        6px 14px 0 #6b2a1a,
+        -5px 24px 0 #74301d,
+        5px 24px 0 #74301d,
+        -3px 34px 0 #6b2a1a,
+        3px 34px 0 #6b2a1a;
+}
+
+.lara .hairFront {
+    display: block;
+
+    left: -2px;
+    top: -4px;
+
+    width: 27px;
+    height: 12px;
+
+    background: #913c24;
+
+    box-shadow:
+        5px 2px 0 #74301d,
+        11px 1px 0 #913c24,
+        17px 3px 0 #74301d;
+}
+
+.lara .head,
+.lara .arm,
+.lara .hand {
+    background: #9b634c;
+}
+
+.lara .shirt {
+    background: #a90e12;
+
+    height: 25px;
+}
+
+
+/* SAIA */
+
+.lara .skirt {
+    position: absolute;
+
+    left: 3px;
+    top: 24px;
+
+    width: 34px;
+    height: 19px;
+
+    background: #641015;
+
+    border: 2px solid #280609;
+
+    z-index: 4;
+
+    clip-path:
+        polygon(
+            15% 0%,
+            85% 0%,
+            100% 100%,
+            0% 100%
+        );
+}
+
+.lara .leg {
+    top: 40px;
+
+    width: 10px;
+    height: 17px;
+
+    background: #80513f;
+
+    border: 2px solid #111;
+
+    z-index: 5;
+}
+
+.lara .legLeft {
+    left: 8px;
+}
+
+.lara .legRight {
+    right: 8px;
+}
+
+.lara .shoe {
+    top: 53px;
+
+    background: #242424;
+}
+
+
+/* =========================================
+   TOKIO KAU
+   CABELO MORENO, CURTO E CHEIO
+========================================= */
+
+.tokio .hairBack {
+    left: 7px;
+    top: 7px;
+
+    width: 44px;
+    height: 43px;
+
+    background: #3b251a;
+
+    box-shadow:
+        -5px 5px 0 #2c1a12,
+        5px 5px 0 #2c1a12,
+        -6px 14px 0 #25160f,
+        6px 14px 0 #25160f,
+        -5px 24px 0 #2c1a12,
+        5px 24px 0 #2c1a12,
+        -3px 34px 0 #25160f,
+        3px 34px 0 #25160f;
+}
+
+.tokio .hairFront {
+    display: block;
+
+    left: -2px;
+    top: -4px;
+
+    width: 27px;
+    height: 12px;
+
+    background: #3b251a;
+
+    box-shadow:
+        5px 2px 0 #2c1a12,
+        11px 1px 0 #3b251a,
+        17px 3px 0 #2c1a12;
+}
+
+.tokio .head,
+.tokio .arm,
+.tokio .hand {
+    background: #a96f4f;
+}
+
+.tokio .shirt {
+    left: 4px;
+    top: 1px;
+
+    width: 32px;
+    height: 41px;
+
+    background: #d76519;
+
+    border-color: #71330d;
+}
+
+.tokio .shirt::before {
+    content: "";
+
+    position: absolute;
+
+    left: 5px;
+    top: -2px;
+
+    width: 5px;
+    height: 13px;
+
+    background: #e27a25;
+
+    box-shadow:
+        15px 0 0 #e27a25;
+}
+
+.tokio .shirt::after {
+    content: "";
+
+    position: absolute;
+
+    left: 10px;
+    top: 20px;
+
+    width: 10px;
+    height: 7px;
+
+    border: 1px solid #8b3b0b;
+}
+
+.tokio .leg {
+    top: 39px;
+
+    height: 18px;
+
+    background: #d76519;
+
+    border-color: #71330d;
+}
+
+
+/* =========================================
+   STARPRI
+========================================= */
+
+.starpri .hairBack {
+    left: 10px;
+    top: 7px;
+
+    width: 38px;
+    height: 73px;
+
+    background: #211918;
+
+    box-shadow:
+        -3px 14px 0 #171212,
+        3px 30px 0 #171212,
+        -2px 48px 0 #171212;
+}
+
+.starpri .hairFront {
+    display: none;
+}
+
+.starpri .head,
+.starpri .arm,
+.starpri .hand {
+    background: #dfb18f;
+}
+
+.starpri .dress {
+    position: absolute;
+
+    left: 3px;
+    top: 1px;
+
+    width: 34px;
+    height: 45px;
+
+    background: #9368b9;
+
+    border: 2px solid #49325d;
+
+    z-index: 2;
+
+    clip-path:
+        polygon(
+            20% 0%,
+            80% 0%,
+            100% 100%,
+            0% 100%
+        );
+}
+
+.starpri .dress::before {
+    content: "";
+
+    position: absolute;
+
+    left: 14px;
+    top: 4px;
+
+    width: 4px;
+    height: 29px;
+
+    background: #b991d3;
+}
+
+.starpri .leg {
+    top: 43px;
+
+    width: 10px;
+    height: 14px;
+
+    background: #dfb18f;
+
+    border-color: #111;
+
+    z-index: 4;
+}
+
+.starpri .legLeft {
+    left: 9px;
+}
+
+.starpri .legRight {
+    right: 9px;
+}
+
+.starpri .shoe {
+    top: 54px;
+
+    background: #352b3d;
+}
+
+
+/* =========================================
+   RAIANY
+========================================= */
+
+.raiany .hairBack {
+    left: 8px;
+    top: 8px;
+
+    width: 42px;
+    height: 49px;
+
+    background: #14100f;
+
+    box-shadow:
+        -4px 7px 0 #0c0a09,
+        4px 7px 0 #0c0a09,
+        -5px 17px 0 #0c0a09,
+        5px 17px 0 #0c0a09,
+        -4px 27px 0 #0c0a09,
+        4px 27px 0 #0c0a09;
+}
+
+.raiany .hairFront {
+    display: none;
+}
+
+.raiany .head,
+.raiany .arm,
+.raiany .hand {
+    background: #704733;
+}
+
+.raiany .shirt {
+    background: #eeeeee;
+
+    height: 27px;
+
+    border-color: #777;
+}
+
+.raiany .shirt::before {
+    content: "";
+
+    position: absolute;
+
+    left: 12px;
+    top: 4px;
+
+    width: 4px;
+    height: 16px;
+
+    background: #c8c8c8;
+}
+
+.raiany .leg {
+    top: 27px;
+
+    height: 30px;
+
+    background: #252525;
+
+    border-color: #101010;
+}
+
+.raiany .shoe {
+    background: #111;
+}
+
+
+/* =========================================
+   ALICCE — CABELO CASTANHO COM ROXO
+========================================= */
+
+.alicce .hairBack {
+    left: 7px;
+    top: 7px;
+
+    width: 44px;
+    height: 43px;
+
+    background: #54352b;
+
+    box-shadow:
+        -5px 5px 0 #432820,
+        5px 5px 0 #432820,
+        -6px 14px 0 #432820,
+        6px 14px 0 #432820,
+        -5px 24px 0 #432820,
+        5px 24px 0 #432820,
+        -3px 34px 0 #432820,
+        3px 34px 0 #432820;
+}
+
+
+/* CABELO DA FRENTE */
+
+.alicce .hairFront {
+    display: block;
+
+    left: -2px;
+    top: -4px;
+
+    width: 27px;
+    height: 12px;
+
+    background: #54352b;
+
+    box-shadow:
+        5px 2px 0 #432820,
+        11px 1px 0 #54352b,
+        17px 3px 0 #432820;
+}
+
+
+/* =========================================
+   MECHAS ROXAS — SOMENTE NO CABELO
+========================================= */
+
+.alicce .purpleStreak {
+    position: absolute;
+
+    left: 4px;
+    top: 0;
+
+    width: 5px;
+    height: 11px;
+
+    background: #8b42b8;
+
+    z-index: 10;
+
+    box-shadow:
+        1px 4px 0 #71349a,
+        2px 8px 0 #9a4ac8;
+}
+
+
+/* segunda mecha no lado direito do cabelo */
+
+.alicce .hairFront::after {
+    content: "";
+
+    position: absolute;
+
+    right: 3px;
+    top: 1px;
+
+    width: 4px;
+    height: 9px;
+
+    background: #71349a;
+
+    z-index: 10;
+}
+
+
+/* PELE */
+
+.alicce .head,
+.alicce .arm,
+.alicce .hand {
+    background: #dfb18f;
+}
+
+/* =========================================
+ /* =========================================
+   MINIPRI
+   PELE PRETA
+   CABELO CASTANHO
+========================================= */
+
+.minipri .hairBack {
+    left: 6px;
+    top: 5px;
+
+    width: 46px;
+    height: 76px;
+
+    background: #604033;
+
+    box-shadow:
+        -5px 8px 0 #503329,
+        5px 8px 0 #503329,
+        -6px 21px 0 #503329,
+        6px 21px 0 #503329,
+        -6px 37px 0 #44291f,
+        6px 37px 0 #44291f,
+        -4px 53px 0 #3b241b;
+}
+
+
+/* CABELO DA FRENTE */
+
+.minipri .hairFront {
+    display: block;
+
+    left: -2px;
+    top: -4px;
+
+    width: 28px;
+    height: 12px;
+
+    background: #604033;
+
+    box-shadow:
+        5px 2px 0 #503329,
+        11px 1px 0 #604033,
+        17px 3px 0 #503329;
+}
+
+
+/* =========================================
+   PELE
+   MESMA COR EM TODO O CORPO
+========================================= */
+
+.minipri .head,
+.minipri .neck,
+.minipri .arm,
+.minipri .hand {
+    background: #805744;
+}
+
+
+/* pequenos sombreados da pele */
+
+.minipri .head {
+    border-color: #241711;
+}
+
+.minipri .neck {
+    border-left-color: #241711;
+    border-right-color: #241711;
+}
+
+
+/* =========================================
+   CAMISA
+========================================= */
+
+.minipri .shirt {
+    background: #737373;
+
+    height: 27px;
+
+    border-color: #292929;
+}
+
+.minipri .shirt::before {
+    content: "";
+
+    position: absolute;
+
+    left: 11px;
+    top: 4px;
+
+    width: 6px;
+    height: 16px;
+
+    background: #9a9a9a;
+}
+
+
+/* =========================================
+   PERNAS
+========================================= */
+
+.minipri .leg {
+    top: 27px;
+
+    height: 30px;
+
+    background: #4b4b4b;
+
+    border-color: #202020;
+}
+
+
+/* =========================================
+   SAPATOS
+========================================= */
+
+.minipri .shoe {
+    background: #303030;
+
+    border-color: #151515;
+}
+/* =========================================
+   PERSONAGEM MISTERIOSO
+========================================= */
+
+.mysterious {
+    width: 58px;
+    height: 101px;
+}
+
+
+/* CABELO BRANCO */
+
+.mysteriousHair {
+    position: absolute;
+
+    left: 9px;
+    top: 5px;
+
+    width: 40px;
+    height: 30px;
+
+    background: #eeeeee;
+
+    border: 2px solid #777;
+
+    z-index: 6;
+
+    box-shadow:
+        -5px 7px 0 #d7d7d7,
+        5px 5px 0 #d7d7d7,
+        -3px 17px 0 #c8c8c8,
+        3px 18px 0 #c8c8c8;
+}
+
+
+/* CABEÇA */
+
+.mysteriousHead {
+    position: absolute;
+
+    left: 50%;
+    top: 18px;
+
+    width: 29px;
+    height: 27px;
+
+    transform: translateX(-50%);
+
+    background: #343434;
+
+    border: 2px solid #111;
+
+    z-index: 5;
+}
+
+
+/* OLHOS */
+
+.mysteriousEye {
+    position: absolute;
+
+    top: 10px;
+
+    width: 4px;
+    height: 4px;
+
+    background: #d9d9d9;
+
+    box-shadow:
+        0 0 4px rgba(255,255,255,.5);
+}
+
+.mysteriousEye.eyeLeft {
+    left: 5px;
+}
+
+.mysteriousEye.eyeRight {
+    right: 5px;
+}
+
+
+/* CORPO */
+
+.mysteriousBody {
+    position: absolute;
+
+    left: 50%;
+    top: 44px;
+
+    width: 38px;
+    height: 57px;
+
+    transform: translateX(-50%);
+
+    background: #343434;
+
+    border: 2px solid #111;
+
+    z-index: 3;
+}
+
+
+/* BRAÇOS */
+
+.mysteriousArm {
+    position: absolute;
+
+    top: 2px;
+
+    width: 8px;
+    height: 29px;
+
+    background: #343434;
+
+    border: 2px solid #111;
+}
+
+.mysteriousArmLeft {
+    left: -10px;
+}
+
+.mysteriousArmRight {
+    right: -10px;
+}
+
+
+/* PERNAS */
+
+.mysteriousLeg {
+    position: absolute;
+
+    top: 39px;
+
+    width: 13px;
+    height: 18px;
+
+    background: #343434;
+
+    border: 2px solid #111;
+}
+
+.mysteriousLegLeft {
+    left: 5px;
+}
+
+.mysteriousLegRight {
+    right: 5px;
+}
+
+
+/* INTERROGAÇÃO */
+
+.mysteriousQuestion {
+    position: absolute;
+
+    left: 50%;
+    top: 9px;
+
+    transform: translateX(-50%);
+
+    color: #d8d8d8;
+
+    font-family:
+        "Courier New",
+        monospace;
+
+    font-size: 25px;
+
+    font-weight: bold;
+
+    line-height: 1;
+
+    text-shadow:
+        0 0 5px #000;
+}
+
+
+/* =========================================
+   NOMES
+========================================= */
+
+.characterName {
+    font-size: 12px;
+
+    letter-spacing: 4px;
+
+    color: #777;
+
+    text-align: center;
+}
+
+.character.selected .characterName {
+    color: #eee;
+}
+
+
+/* =========================================
+   PARTE INFERIOR
+========================================= */
+
+.characterBottom {
+    width: 900px;
+
+    max-width: 100%;
+
+    margin-top: 18px;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: space-between;
+
+    color: #555;
+
+    font-size: 10px;
+
+    letter-spacing: 2px;
+}
+
+.characterBottom strong {
+    color: #a00000;
+
+    margin-left: 8px;
+}
+
+
+/* =========================================
+   CONFIRMAR
+========================================= */
+
+#confirmButton {
+    width: 190px;
+    height: 45px;
+
+    background: #100000;
+
+    border: 1px solid #700000;
+
+    color: #aaa;
+
+    font-family:
+        "Courier New",
+        monospace;
+
+    letter-spacing: 3px;
+
+    cursor: pointer;
+
+    transition: .2s;
+}
+
+#confirmButton:hover {
+    background: #280000;
+
+    border-color: #b00000;
+
+    color: white;
+
+    box-shadow:
+        0 0 20px rgba(160, 0, 0, .25);
+}
+
+
+/* =========================================
+   INSTRUÇÕES
+========================================= */
+
+.overlay {
+    position: fixed;
+
+    inset: 0;
+
+    background:
+        rgba(0, 0, 0, .85);
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    z-index: 100;
+}
+
+.instructionsBox {
+    position: relative;
+
+    width: 480px;
+
+    max-width: 90vw;
+
+    padding: 40px;
+
+    background: #080808;
+
+    border: 1px solid #650000;
+
+    text-align: center;
+
+    box-shadow:
+        0 0 50px rgba(120, 0, 0, .3);
+}
+
+.instructionsBox h2 {
+    color: #a00000;
+
+    letter-spacing: 5px;
+
+    margin-bottom: 25px;
+}
+
+.instructionsBox p {
+    color: #aaa;
+
+    font-size: 13px;
+
+    line-height: 1.8;
+
+    margin: 8px;
+}
+
+.instructionsBox hr {
+    border: none;
+
+    border-top: 1px solid #222;
+
+    margin: 22px 0;
+}
+
+.instructionsBox .danger {
+    color: #900000;
+
+    margin-top: 20px;
+}
+
+#closeInstructions {
+    position: absolute;
+
+    right: 12px;
+    top: 8px;
+
+    border: none;
+
+    background: transparent;
+
+    color: #555;
+
+    font-size: 28px;
+
+    cursor: pointer;
+}
+
+#closeInstructions:hover {
+    color: #d00000;
+}
+
+
+/* =========================================
+   RESPONSIVO
+========================================= */
+
+@media (max-width: 900px) {
+
+    .characters {
+        grid-template-columns:
+            repeat(3, 1fr);
+    }
+
+}
+
+
+@media (max-width: 700px) {
+
+    .screen {
+        width: 95vw;
+        height: 94vh;
+    }
+
+    #characterScreen {
+        padding: 25px 15px;
+    }
+
+    .characters {
+        grid-template-columns:
+            repeat(2, 1fr);
+
+        gap: 10px;
+
+        margin-top: 20px;
+    }
+
+    .character {
+        height: 150px;
+    }
+
+    .characterImage {
+        width: 70px;
+        height: 90px;
+    }
+
+    .characterBottom {
+        flex-direction: column;
+
+        gap: 15px;
+    }
+
+}
